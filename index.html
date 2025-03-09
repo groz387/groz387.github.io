@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Double A Agency - Your SMM experts for growing your business through Instagram, TikTok, and targeted advertising.">
+    <meta name="keywords" content="SMM, social media marketing, Double A Agency, Instagram, TikTok, content creation, advertising">
+    <meta name="author" content="Double A Agency">
+    <title>Double A Agency | Elevate Your Social Media</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif; /* Default font for paragraphs, supports Cyrillic */
+            background: #FFD700; /* Muted yellow background */
+            color: #000000; /* Black text */
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: #000000; /* Black, kept for contrast */
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #FF87CE; /* Soft pink */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Poppins', sans-serif; /* Headers remain Poppins */
+        }
+        nav a {
+            color: #FF87CE; /* Soft pink */
+            margin-left: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif; /* Headers remain Poppins */
+            transition: color 0.3s ease;
+        }
+        nav a:hover { color: #FFD700; /* Muted yellow */ }
+
+        /* Sticky Floating Icons */
+        .float-icon {
+            position: fixed;
+            width: 150px; /* Large size */
+            height: 150px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 1001;
+            filter: drop-shadow(0 0 10px rgba(255, 135, 206, 0.5)); /* Pink glow */
+            animation: float 4s ease-in-out infinite;
+            transition: opacity 0.3s ease; /* Smooth fade for visibility toggle */
+        }
+        #insta-icon {
+            top: 50%; /* Centered with slogan vertically */
+            left: 10%; /* Aligned with slogan */
+            background-image: url('images/Insta.png'); /* Replace with actual URL */
+        }
+        #tiktok-icon {
+            top: 50%; /* Centered with slogan vertically */
+            right: 10%; /* Aligned with slogan */
+            background-image: url('images/Tiktok.png'); /* Replace with actual URL */
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        /* Hero Section */
+        #hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: #FFD700; /* Muted yellow */
+            padding-top: 60px; /* Adjust for header height */
+        }
+        #hero h2 {
+            font-size: 6rem;
+            font-weight: 800;
+            color: transparent;
+            -webkit-text-stroke: 2px #FF87CE; /* Soft pink outline */
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            line-height: 1;
+            font-family: 'Poppins', sans-serif; /* Headers remain Poppins */
+        }
+        #hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            color: #000000; /* Black text */
+            font-family: 'Roboto', sans-serif; /* Paragraphs use Roboto */
+        }
+        .cta-btn {
+            padding: 1rem 3rem;
+            background: #FF69B4; /* Dark pink */
+            color: #FFD700; /* Muted yellow text */
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+            font-family: 'Poppins', sans-serif; /* Match header font */
+        }
+        .cta-btn:hover {
+            transform: scale(1.1);
+            background: #ffaadb; /* Soft pink */
+            color: #000000; /* Black text */
+        }
+
+        /* Invisible Line at the Top of Hero Section */
+        .hide-trigger {
+            position: absolute;
+            top: 20%; /* Moved way higher, near the top of the hero section */
+            left: 0;
+            width: 100%;
+            height: 1px; /* Invisible line */
+            opacity: 0; /* Hidden from view */
+        }
+/* #dec957 */
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+            position: relative;
+            background: #FFD700; /* Dark yellow */
+        }
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: #FF87CE; /* Soft pink */
+            text-align: center;
+            font-family: 'Poppins', sans-serif; /* Headers remain Poppins */
+        }
+        .content-box {
+            background: #dec957; /* Semi-transparent dark yellow */
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 0 10px 20px rgba(255, 105, 180, 0.3); /* Dark pink shadow */
+        }
+        ul li {
+            margin: 1rem 0;
+            font-size: 1.1rem;
+            list-style: none;
+            position: relative;
+            padding-left: 1.5rem;
+            color: #000000; /* Black text */
+            font-family: 'Roboto', sans-serif; /* Paragraphs use Roboto */
+        }
+        ul li:before {
+            content: "➔";
+            position: absolute;
+            left: 0;
+            color: #FF69B4; /* Dark pink */
+        }
+
+        /* Achievements */
+        #achievements { background: #FFD700; /* Dark yellow */ }
+
+        /* Contact Section (Footer) */
+        #contact {
+            background: #FFD700; /* Dark yellow */
+            padding: 3rem 2rem;
+            text-align: center;
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+        #contact h2 {
+            color: #FF87CE; /* Soft pink */
+            margin-bottom: 1.5rem;
+            font-family: 'Poppins', sans-serif; /* Headers remain Poppins */
+        }
+        #contact .content-box {
+            background: none;
+            box-shadow: none;
+            padding: 0;
+        }
+        #contact a {
+            color: #FF87CE; /* Soft pink */
+            text-decoration: none;
+            margin: 0 1rem;
+            font-family: 'Roboto', sans-serif; /* Paragraphs use Roboto */
+            display: inline-flex;
+            align-items: center;
+        }
+        #contact a:hover { color: #FF69B4; /* Dark pink */ }
+        #contact .cta-btn {
+            margin-top: 1rem;
+            display: inline-block;
+            font-family: 'Poppins', sans-serif; /* Match header font */
+        }
+        #contact a:before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            margin-right: 0.5rem;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        #contact a[href*="instagram.com"]:before {
+            background-image: url('https://img.icons8.com/ios-filled/16/FF87CE/instagram-new.png'); /* Soft pink Instagram icon */
+        }
+        #contact a[href*="t.me"]:before {
+            background-image: url('https://img.icons8.com/ios-filled/16/FF87CE/telegram.png'); /* Soft pink Telegram icon */
+        }
+
+        /* One of Our Cases Section */
+        #case-study {
+            background: #FFD700; /* Dark yellow */
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        #case-study h2 {
+            color: #FF87CE; /* Soft pink */
+            margin-bottom: 2rem;
+            font-family: 'Poppins', sans-serif; /* Headers remain Poppins */
+        }
+        .case-card {
+            background: #FFD700; /* Muted yellow */
+            color: #000000; /* Black text */
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 10px 20px rgba(255, 105, 180, 0.3); /* Dark pink shadow */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .case-stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        .stat-item {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #000000; /* Black text */
+            font-family: 'Roboto', sans-serif; /* Paragraphs use Roboto */
+        }
+        .stat-item span {
+            display: block;
+            font-size: 1.5rem;
+            color: #000000; /* Black text */
+            background: #FF69B4; /* Dark pink */
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            margin-top: 0.5rem;
+        }
+
+        /* Dynamic Screenshot Section */
+        #screenshot-slider {
+            background: #FFD700; /* Dark yellow */
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        #screenshot-slider h2 {
+            color: #FF87CE; /* Soft pink */
+            margin-bottom: 2rem;
+            font-family: 'Poppins', sans-serif; /* Headers remain Poppins */
+        }
+        .slider-container {
+            max-width: 900px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            padding: 1rem;
+            text-align: center;
+        }
+        .slide img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3); /* Dark pink shadow */
+            display: block; /* Ensure proper alignment */
+        }
+        .slide p {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            color: #000000; /* Black text */
+            font-family: 'Roboto', sans-serif; /* Paragraphs use Roboto */
+        }
+
+        /* Improved Carousel Buttons */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #FF87CE; /* Soft pink */
+            color: #000000; /* Black text */
+            border: 2px solid #FF69B4; /* Dark pink border */
+            width: 40px; /* Fixed width for perfect circle */
+            height: 40px; /* Fixed height for perfect circle */
+            padding: 0; /* Remove padding to ensure circle */
+            cursor: pointer;
+            font-size: 1.5rem;
+            border-radius: 50%; /* Ensure perfect circle */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        .slider-btn:hover {
+            background: #FF69B4; /* Dark pink */
+            color: #FFD700; /* Muted yellow */
+            border-color: #FF87CE; /* Soft pink border */
+        }
+        .slider-btn.prev {
+            left: 10px; /* Adjusted for better spacing */
+        }
+        .slider-btn.next {
+            right: 10px; /* Adjusted for better spacing */
+        }
+
+        /* Scroll Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header { flex-direction: column; padding: 1rem; }
+            nav a { margin: 0.5rem 1rem; }
+            #hero h2 { font-size: 3rem; }
+            .float-icon { width: 80px; height: 80px; }
+            #insta-icon { left: 15%; top: 50%; }
+            #tiktok-icon { right: 15%; top: 50%; }
+            .case-stats { flex-direction: column; gap: 1rem; }
+            .slider-btn { width: 30px; height: 30px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Icons with Images -->
+    <div class="float-icon" id="insta-icon"></div>
+    <div class="float-icon" id="tiktok-icon"></div>
+
+    <!-- Header -->
+    <header>
+        <h1>Double A Agency</h1>
+        <nav>
+            <a href="#hero">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#achievements">Achievements</a>
+            <a href="#case-study">Case Study</a>
+            <a href="#screenshot-slider">Screenshots</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <h2>Elevate Your Business</h2>
+        <p>Мы команда специалистов, которая помогает бизнесам расти через соцсети с помощью стратегий, контента и рекламы.</p>
+        <a href="#contact" class="cta-btn">Get Started</a>
+        <div class="hide-trigger"></div> <!-- Invisible line at 20% -->
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="fade-in">
+        <h2>Who We Are</h2>
+        <div class="content-box">
+            <p>Double A Agency - это команда профессионалов, которая помогает бизнесам привлекать клиентов и увеличивать прибыль через социальные сети. Мы создаем стратегии продвижения, качественный контент и запускаем рекламу, которая реально работает.</p>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="fade-in">
+        <h2>Our Services</h2>
+        <div class="content-box">
+            <ul>
+                <li><strong>SMM-продвижение:</strong> Разработка стратегии продвижения, создание контент-плана, полное ведение соцсетей (Instagram/TikTok), настройка и ведение таргетированной рекламы.</li>
+                <li><strong>Личный бренд и упаковка:</strong> Создание визуального стиля, разработка контент-стратегии, оформление и оптимизация профиля, написание продающих текстов.</li>
+                <li><strong>Контент-продакшн:</strong> Фото и видеосъемка для соцсетей, производство Reels/TikTok-контента, профессиональный монтаж и обработка видео, креативный сторисмейкинг.</li>
+                <li><strong>Реклама и маркетинг:</strong> Разработка рекламных креативов, запуск таргетированной рекламы, сотрудничество с блогерами и инфлюенсерами, анализ конкурентов и трендов рынка.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="fade-in">
+        <h2>Our Achievements</h2>
+        <div class="content-box">
+            <ul>
+                <li>Наши рилсы набирали по 500 000+ просмотров.</li>
+                <li>Увеличили охваты клиентов в 5 раз.</li>
+                <li>Повысили вовлеченность аудитории на 70%.</li>
+                <li>Работаем с бизнесами более года.</li>
+                <li>Запускали успешные рекламные кампании.</li>
+                <li>Привлекли тысячи новых клиентов.</li>
+                <li>2 млн просмотров за последние 30 дней.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- One of Our Cases Section -->
+    <section id="case-study" class="fade-in">
+        <h2>One of Our Cases</h2>
+        <div class="case-card">
+            <p>Check out our success with <strong>boomberry.az</strong> – a premium chocolate brand in Baku. Over 30 days, we boosted their Instagram presence with targeted Reels and content strategies.</p>
+            <div class="case-stats">
+                <div class="stat-item">
+                    Views
+                    <span>2.0M</span>
+                </div>
+                <div class="stat-item">
+                    Likes
+                    <span>78.8k</span>
+                </div>
+                <div class="stat-item">
+                    New Subscribers
+                    <span>2.6k</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dynamic Screenshot Section -->
+    <section id="screenshot-slider" class="fade-in">
+        <h2>Case Screenshots</h2>
+        <div class="slider-container">
+            <button class="slider-btn prev" onclick="moveSlide(-1)" aria-label="Previous Slide">❮</button>
+            <div class="slider">
+                <div class="slide">
+                    <img src="images/case1.PNG" alt="Case 1" loading="lazy">
+                    <p>Likes: 1,209 | Views: 320k</p>
+                </div>
+                <div class="slide">
+                    <img src="images/case2.PNG" alt="Case 2" loading="lazy">
+                    <p>Likes: 11.3k | Views: 215k</p>
+                </div>
+                <div class="slide">
+                    <img src="images/case3.PNG" alt="Case 3" loading="lazy">
+                    <p>Likes: 10.8k | Views: 398k</p>
+                </div>
+                <div class="slide">
+                    <img src="images/case4.PNG" alt="Case 4" loading="lazy">
+                    <p>Likes: 125k | Views: 655k</p>
+                </div>
+                <div class="slide">
+                    <img src="images/case5.PNG" alt="Case 5" loading="lazy">
+                    <p>Likes: 2,021 | Views: 54.2k</p>
+                </div>
+                <div class="slide">
+                    <img src="images/case6.PNG" alt="Case 6" loading="lazy">
+                    <p>Likes: 1,287 | Views: 117k</p>
+                </div>
+            </div>
+            <button class="slider-btn next" onclick="moveSlide(1)" aria-label="Next Slide">❯</button>
+        </div>
+    </section>
+
+    <!-- Contact Section (Footer) -->
+    <section id="contact" class="fade-in">
+        <h2>Get in Touch</h2>
+        <div class="content-box">
+            <p>Instagram: <a href="https://instagram.com/ssmm.2a.agency" target="_blank">@ssmm.2a.agency</a></p>
+            <p>Telegram: <a href="https://t.me/doubleA_2a" target="_blank">@doubleA_2a</a></p>
+            <a href="tel:+1234567890" class="cta-btn">Give Us a Call</a>
+        </div>
+    </section>
+
+    <script>
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Fade-in Animation on Scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+        fadeElements.forEach(el => observer.observe(el));
+
+        // Slider Functionality
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function moveSlide(direction) {
+            slideIndex += direction;
+            if (slideIndex >= totalSlides) slideIndex = 0;
+            if (slideIndex < 0) slideIndex = totalSlides - 1;
+            updateSlider();
+        }
+
+        function updateSlider() {
+            const slider = document.querySelector('.slider');
+            const slideWidth = slides[0].offsetWidth;
+            slider.style.transform = `translateX(-${slideIndex * slideWidth}px)`;
+        }
+
+        // Auto-slide every 5 seconds
+        setInterval(() => moveSlide(1), 5000);
+
+        // Initialize slider on load and resize
+        window.addEventListener('load', updateSlider);
+        window.addEventListener('resize', updateSlider);
+
+
+        // Hide icons when scrolling past the invisible line (at 20%)
+        const hideTrigger = document.querySelector('.hide-trigger');
+        const icons = document.querySelectorAll('.float-icon');
+        window.addEventListener('scroll', () => {
+            const triggerRect = hideTrigger.getBoundingClientRect();
+            if (triggerRect.top <= 0) {
+                icons.forEach(icon => icon.style.opacity = '0');
+            } else {
+                icons.forEach(icon => icon.style.opacity = '1');
+            }
+        });
+    </script>
+</body>
+</html>
