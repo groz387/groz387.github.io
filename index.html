@@ -1,89 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Gate</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script>
-    // SHA-256(hex) of the real password "saintgermain"
-    const H = "559f7af91950d4b29eb4b464b6fa00a05f791f9a85bb721db2d233e5369a7f7b";
-
-    async function sha256Hex(str) {
-      const data = new TextEncoder().encode(str);
-      const digest = await crypto.subtle.digest("SHA-256", data);
-      const bytes = new Uint8Array(digest);
-      let hex = "";
-      for (let b of bytes) hex += b.toString(16).padStart(2, "0");
-      return hex;
-    }
-
-    async function checkPassword() {
-      const input = document.getElementById("pw");
-      const msg = document.getElementById("msg");
-      const entered = input.value;
-      const enteredHash = await sha256Hex(entered);
-      if (enteredHash === H) {
-        document.getElementById("gate").style.display = "none";
-        document.getElementById("content").style.display = "block";
-        input.value = "";
-      } else {
-        msg.textContent = "Wrong password. Try again.";
-      }
-    }
-
-    function handleKey(e) {
-      if (e.key === "Enter") checkPassword();
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mashallah Locator</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-  <center>
-    <div id="gate">
-      <h3>Honey, check my last pin on board for a hint.</h3>
-      <div><small>all lowercase no spaces</small></div>
-      <p>
-        <input id="pw" type="password" placeholder="Password" onkeydown="handleKey(event)" />
-        <button onclick="checkPassword()">Enter</button>
-      </p>
-      <div id="msg"></div>
-    </div>
-
-    <div id="content" style="display:none; max-width:90vw;">
-      <h2>Next Page</h2>
-
-      <p>Page = ("{our date}" * 275) + 8</p>
-      <br />
-
-      <p>The volume is counted by the number of people Your_Star_ has chosen. Mirror that number and choose that book.</p>
-      <br />
-
-      <p>
-        Sell me this pen, oh I'm sure that you can. His name’s Jordan Belfort, can you guess what he was labelled? I am sure you can solve this rebus puzzle to get the number. 
-        —- ‘(insert ´h´){last word of it}‘ —-
-      </p>
-      <br />
-
-      <p>
-        Remember that smoooooth operator in Baku? Kimi was chasing but didn't succeed, what was the place that he ended up with?
-      </p>
-      <br />
-
-      <p>
-        Hex encoded by Vigenère.<br/>
-        Key: meaning of my future wife´s name<br/>
-        check that result ends in: …yos
-      </p>
-
-      <!-- The long blob is placed inside a readonly textarea with wrapping so it stays inside the viewport.
-           wrap="soft" (or "hard") causes long lines to wrap within the textarea. Rows/cols chosen to
-           give a comfortable on-screen view; the textarea will expand to available width on most browsers. -->
-      <p>
-        <textarea id="blob" readonly wrap="soft" rows="18" cols="90" style="width:90vw; max-width:120ch;">
-1p1g68r8xf8vshnya01jc9zc4uiz512npffdp9v2ku0rnq74hcalf6ifih5whidti4r8uqftjfa8zyj8vf0lt0qlcuwvjov6akgxp7oai8sg9exd7kibwak1heg03m6tr55enm8oldvko7j4vd7z7jq2a6jip8vhq8819jhm7q2qf2p8j63oesb3x9k4m2nviaoml85u0myp0dodj5ts2jz1tb9jtpdkzn0cbd40hovb6oyra6cfuan5t9yxsavtrp648yk3y2u93qvnth8x69or12xq5v4t3qurxj1ay2nxd4u0eudj7xl1nblzutok5c2dny5zak8bi0cyt7y8qgtndknmojjrxpdnox377l97vnzkfj5djukgr2bf81m6j0cmp0stiz7itgbt16lw0j9129fsb6nrrxyskskfuj6uf4ni7njsl4ldmxdfjnq6lrxvmhzg5jjm0rvaowfu8hijrm9tfquuzswfrlnr6ck5ccf95gc444b45m8zrycr43mqnx0hfif6cgmvtvmazzyj3480dbblu5464jw445kju8knhauyhdh8lncnz8ymk5pr473jfiuqe5sexaql5r0frtd54lhih9fk8287pwmeu0iu2xwexcy4sc6aq96kirdrrrs0zy8ntjoph4tc9j12mbuh0uv6apcwocc4ge2g81oel1mogi4jycp425ve06z1xd9y3c5x7338bz1g3sl9a5gv501cn2xr2n8bndm9sif5w8kbf0h73yccnnd98b08tnvusol1txetg177lz8e0d307oaqk0as844e85amvpqr62nao1jbt9pi679wi6q9sw3nfxeib13cq2e1jwlh7r1m8gf1jvoploz0ohj14643d5v0i7nuwpa1dxp5y485jgmk3pg84xxq21m7bylzyp3voy7jdozkn3mloe0pc8eq7jkubzi1ng6pyf0w7nx9bkq7comkzi4m1loowwhlbgfgsuan6kqmlmkkcma8jcz13wwxe1tivu0au4mns0oi6j5tksv60canusbvwjyjms28p94fq3hbc183cv179yi485jvjix2vqgclgiamstc4psbpqaolbxmsxo2lz3e3qly5letiofxrjspw7x8h3b3fskd2f5wqn20ds55l742ifqwe03mabxzidysapyp2klhgi64gz34b9f50hl5eqie5evqiccm2l6538ga3ywlnv8dgz3aem81jwbtak4rqvw9auei7titbgv27fiiift3w5l1hiemipefslwrohiqr4bdxseh37chuwr4xajmuj868wpdl6ghipzaeb68g85klqotkzu9pxzx2ae7kpm894eiq59jbhfel2sdfo86vphg0lh6dg7qhzull4lzahv2tvl1blz4z6bj73ib1jkpk41bcarvq3yid6lc8etaxquays48hfoia6lgirg4ugwwy7ewvi81qvuex3s4h2zqltm95axt5jwcs9kb40dyfa7506mb0i7yhozqdjnpdmsx1gne4pn7vojelv6wrxrr6y9943at9tc9h29t2xxswu0meneg4o8fy4sj32krbbypl8ipuvwh0ixey06q7k9pb7ga7ma83mk6by40q783n5ygduiuufjz91edo1iyffjmna235nu3dys9q9z5fn6k4bczetfj8i8xe1gbb3smdopv3jqlvk5fa6yukab9ho8shsm1zi8fmk5yhnxyxhuofwz52361puu73a0808049y0iwes72dhwlsrylfpcp9uss5kv1lndonv64922pgf4hpqmn8kl9ognq7ov3iut4s4nywz7keskjqgsyi5n8jy4e5pkvjvlakk2czstrs1lf8oajty1afa1pb12nhf69x8kkv70mlpn1qqr62u6tudlnek89dobdlov4ss6axbt4rpyl0o0y3ry4kzpzwnkjzejj7hx0acd7l6j4mtdlgtw8rpwz219rpzsqp6kkx2uhupta9npk37xhahw7npw1d8p4exg0hmem2yhogpo6vsranjmkel052irrgy7zhjf6ai8mgptaus1jbyfgzjeejkgv2q71vhitfvnr4cxvwqacaafvufkhd8l5loikh7zkypz409f93r0tn28xiqe2jcwiwnw2wffsrnt0o0g9my4q0i0qge2uxjna27a0snfxfl77lcf04wboyriugu70dkpa9h0v16w2demdzj3wk2w6yz8nvn1lqri3jysrjg4qp0rxb5whay2mbg8ko0x6rlyyh4ye8a3vr2acg9nco3u0lmzsxhlyw8c7mqn1vho0cyrc8ngiouoz2twv71uv3fmzikmtdglevv2uuyj6ynzfi319urg8ppxq51cnx5eauqsxereeh1hxca0gda8gkvygctvi3v86j94qdik4kitmj76x6eetetgy6ob3mw07kf47sbmg5hvkn5qc0l7lzhtj8dmurxigkbzngs8jdbr8pvixq3scagywaoex2o1od2wx5tovgqczrcekw3u0wtmz3zliunrknjde77utyk2pgiz9ww4cj2alb0k5ngbl5pkb0eocvew3dzgswa5yjs18taoubd6rycwh2zj6uvvic7c0m6zjzjd6daqmnpy2qxl804f7u7c8rcbnzvra0tsazc17ughpw9olcgzwgbrv5ux0cg83qbpotw0qdab11b69wbgitefbv3cj0ljvbt80nzpfme4nyz0t38xu7g8ncc4p0g8liyncxmb1qwaabrtgt3wbm8uufe11q68yzap6oxk70xzcorht836086hgl7uhic4b3y2x850z42gkxolraj3lij8zc3rzrtsv7dtrd402aro2pzdzw6ecjfmnnajce9vugwhwsscwqs17ds5m2ggjh9yhoojg32aw4kofru35v2x3ydqpw12ay9hrcgghr5zojvzy7hlnmawjpkl99k1gkqjlxxpixqlrk12wwn27ifh1h8jdclshgmxqd8j4e4kdxztpsaszdtu19st0lk52gce748e4xt95ygkn27ihwxfipa6x677qkj3bbqy9dbcitsyf9wyh7pv1u5r9c5ne1vrzikolqd1teca02wj6hyv6rittqax6anoeye138ghvmqkbzp4izompgpymo11wpn2y1nravtfe5z4mmdhvymvikiiessiyg5p45t2cqxa0mto1gweg12jdwcjj2hvlzzjy3768k1rad7vxm7op3jinam7igwpxvk12h6yrw
-        </textarea>
-      </p>
-      <p><small>Note: the text is wrapped inside the textarea so it fits on-screen; you can copy it if needed.</small></p>
-    </div>
-  </center>
+    <div id="root"></div>
+    <script type="text/babel" src="app.jsx"></script>
 </body>
 </html>
