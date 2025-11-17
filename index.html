@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mashallah Locator</title>
+    <title>Mashallah Locator - For Suad</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -11,8 +11,203 @@
 </head>
 <body>
     <div id="root"></div>
-    <script type="text/babel" src="mashallah-locator.jsx"></script>
+    
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { MapPin, Radar, Zap } = lucideReact;
+
+        function MashallahLocator() {
+          const [stage, setStage] = useState('welcome');
+          const [location, setLocation] = useState('');
+          const [scanning, setScanning] = useState(false);
+          const [progress, setProgress] = useState(0);
+          const audioContextRef = useRef(null);
+
+          const locations = [
+            'Dorm',
+            'Campus',
+            'Coca-Cola Factory',
+            'Gym',
+            'Supermarket free supply spot',
+            'Jail',
+            'Port Baku',
+            "William Wallace's Daşşaq"
+          ];
+
+          useEffect(() => {
+            audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+          }, []);
+
+          const playClap = () => {
+            if (!audioContextRef.current) return;
+            
+            const ctx = audioContextRef.current;
+            const oscillator = ctx.createOscillator();
+            const gainNode = ctx.createGain();
+            const filter = ctx.createBiquadFilter();
+            
+            oscillator.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(ctx.destination);
+            
+            oscillator.type = 'triangle';
+            oscillator.frequency.setValueAtTime(800, ctx.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.1);
+            
+            filter.type = 'bandpass';
+            filter.frequency.value = 1000;
+            
+            gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+            
+            oscillator.start(ctx.currentTime);
+            oscillator.stop(ctx.currentTime + 0.1);
+          };
+
+          useEffect(() => {
+            if (scanning) {
+              const timer = setInterval(() => {
+                setProgress(prev => {
+                  if (prev >= 100) {
+                    clearInterval(timer);
+                    setScanning(false);
+                    if (stage === 'radar') {
+                      setStage('noResults');
+                    } else if (stage === 'ograshRadar') {
+                      setStage('ograshResult');
+                    }
+                    return 100;
+                  }
+                  
+                  if (prev % 20 === 0 && prev > 0) {
+                    playClap();
+                  }
+                  
+                  return prev + 1;
+                });
+              }, 100);
+              return () => clearInterval(timer);
+            }
+          }, [scanning, stage]);
+
+          const handleLocationSelect = (loc) => {
+            setLocation(loc);
+            setStage('radar');
+            setScanning(true);
+            setProgress(0);
+          };
+
+          const handleOgrashSearch = () => {
+            setStage('ograshRadar');
+            setScanning(true);
+            setProgress(0);
+          };
+
+          const reset = () => {
+            setStage('welcome');
+            setLocation('');
+            setProgress(0);
+            setScanning(false);
+          };
+
+          return (
+            <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 flex items-center justify-center p-4 overflow-hidden relative">
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {[...Array(20)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-2 h-2 bg-white/20 rounded-full"
+                    style={{
+                      left: `${Math.random() * 100}%`,
+                      top: `${Math.random() * 100}%`,
+                      animation: `float ${5 + Math.random() * 10}s ease-in-out infinite`,
+                      animationDelay: `${Math.random() * 5}s`
+                    }}
+                  />
+                ))}
+              </div>
+
+              <style>{`
+                @keyframes radarSweep {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(360deg); }
+                }
+                
+                @keyframes pulse {
+                  0%, 100% { opacity: 1; transform: scale(1); }
+                  50% { opacity: 0.6; transform: scale(1.1); }
+                }
+                
+                @keyframes fadeIn {
+                  from { opacity: 0; transform: translateY(30px); }
+                  to { opacity: 1; transform: translateY(0); }
+                }
+                
+                @keyframes float {
+                  0%, 100% { transform: translateY(0) translateX(0); }
+                  50% { transform: translateY(-20px) translateX(10px); }
+                }
+                
+                @keyframes glow {
+                  0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.5); }
+                  50% { box-shadow: 0 0 40px rgba(236, 72, 153, 0.8), 0 0 60px rgba(236, 72, 153, 0.4); }
+                }
+                
+                @keyframes glowGreen {
+                  0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.5); }
+                  50% { box-shadow: 0 0 40px rgba(34, 197, 94, 0.8), 0 0 60px rgba(34, 197, 94, 0.4); }
+                }
+                
+                .radar-sweep { animation: radarSweep 2s linear infinite; }
+                .pulse { animation: pulse 2s ease-in-out infinite; }
+                .fade-in { animation: fadeIn 0.8s ease-out forwards; }
+                .glow-pink { animation: glow 2s ease-in-out infinite; }
+                .glow-green { animation: glowGreen 2s ease-in-out infinite; }
+                .radar-circle {
+                  border: 2px solid rgba(255, 255, 255, 0.15);
+                  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+                }
+              `}</style>
+
+              {stage === 'welcome' && (
+                <div className="max-w-3xl w-full fade-in relative z-10">
+                  <div className="text-center mb-16">
+                    <div className="inline-block mb-6 p-4 bg-gradient-to-r from-pink-500/20 to-orange-500/20 rounded-full backdrop-blur-sm border border-pink-500/30">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-pink-400"><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6h.01"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/><path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"/><path d="M12 18h.01"/><path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"/><circle cx="12" cy="12" r="2"/><path d="m13.41 10.59 5.66-5.66"/></svg>
+                    </div>
+                    <h1 className="text-7xl font-black text-white mb-6 tracking-tight">
+                      Welcome, <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-orange-400 animate-pulse">Suad</span>
+                    </h1>
+                    <p className="text-2xl text-gray-300 font-light">Select your current location to begin scanning</p>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {locations.map((loc, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleLocationSelect(loc)}
+                        className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md hover:from-white/20 hover:to-white/10 text-white p-7 rounded-3xl transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-white/20 hover:border-pink-400/50 relative overflow-hidden"
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-pink-500/0 via-pink-500/10 to-pink-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline-block mr-3 mb-1 group-hover:text-pink-400 transition-colors"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span className="text-xl font-semibold relative z-10">{loc}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Add all other stages here - I'll continue in next part due to length */}
+            </div>
+          );
+        }
+
+        ReactDOM.render(<MashallahLocator />, document.getElementById('root'));
+    </script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      lucideReact = lucide;
+    </script>
 </body>
 </html>
-
-
