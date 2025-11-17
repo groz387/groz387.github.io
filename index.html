@@ -1,342 +1,411 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mashallah Locator</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    @keyframes radarSweep {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.1); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0) translateX(0); }
-      50% { transform: translateY(-20px) translateX(10px); }
-    }
-    @keyframes glow {
-      0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.5); }
-      50% { box-shadow: 0 0 40px rgba(236, 72, 153, 0.8), 0 0 60px rgba(236, 72, 153, 0.4); }
-    }
-    @keyframes glowGreen {
-      0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.5); }
-      50% { box-shadow: 0 0 40px rgba(34, 197, 94, 0.8), 0 0 60px rgba(34, 197, 94, 0.4); }
-    }
-    .radar-sweep {
-      animation: radarSweep 2s linear infinite;
-    }
-    .pulse {
-      animation: pulse 2s ease-in-out infinite;
-    }
-    .fade-in {
-      animation: fadeIn 0.8s ease-out forwards;
-    }
-    .glow-pink {
-      animation: glow 2s ease-in-out infinite;
-    }
-    .glow-green {
-      animation: glowGreen 2s ease-in-out infinite;
-    }
-    .radar-circle {
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mashallah Locator - For Suad</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 flex items-center justify-center p-4 overflow-hidden relative">
-  <div class="absolute inset-0 overflow-hidden pointer-events-none" id="particles"></div>
-  <div id="app" class="w-full"></div>
+<body>
+    <div id="root"></div>
+    <script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef } = React;
 
-  <script>
-    const state = {
-      stage: 'welcome',
-      location: '',
-      scanning: false,
-      progress: 0
-    };
+function MashallahLocator() {
+  const [stage, setStage] = useState('welcome');
+  const [location, setLocation] = useState('');
+  const [scanning, setScanning] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const audioContextRef = useRef(null);
 
-    const locations = [
-      'Dorm',
-      'Campus',
-      'Coca-Cola Factory',
-      'Gym',
-      'Supermarket free supply spot',
-      'Jail',
-      'Port Baku',
-      "William Wallace's Daşşaq"
-    ];
+  const locations = [
+    'Dorm',
+    'Campus',
+    'Coca-Cola Factory',
+    'Gym',
+    'Supermarket free supply spot',
+    'Jail',
+    'Port Baku',
+    "William Wallace's Daşşaq"
+  ];
 
-    let progressTimer = null;
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  // Initialize audio context
+  useEffect(() => {
+    audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+  }, []);
 
-    function playClap() {
-      if (!audioContext) return;
-      const ctx = audioContext;
-      const oscillator = ctx.createOscillator();
-      const gainNode = ctx.createGain();
-      const filter = ctx.createBiquadFilter();
+  // Play clap sound
+  const playClap = () => {
+    if (!audioContextRef.current) return;
+    
+    const ctx = audioContextRef.current;
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+    
+    oscillator.connect(filter);
+    filter.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    oscillator.type = 'triangle';
+    oscillator.frequency.setValueAtTime(800, ctx.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.1);
+    
+    filter.type = 'bandpass';
+    filter.frequency.value = 1000;
+    
+    gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+    
+    oscillator.start(ctx.currentTime);
+    oscillator.stop(ctx.currentTime + 0.1);
+  };
 
-      oscillator.connect(filter);
-      filter.connect(gainNode);
-      gainNode.connect(ctx.destination);
-
-      oscillator.type = 'triangle';
-      oscillator.frequency.setValueAtTime(800, ctx.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.1);
-
-      filter.type = 'bandpass';
-      filter.frequency.value = 1000;
-
-      gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-
-      oscillator.start(ctx.currentTime);
-      oscillator.stop(ctx.currentTime + 0.1);
-    }
-
-    function setStage(stage) {
-      state.stage = stage;
-      render();
-    }
-
-    function startScan(nextStage) {
-      state.progress = 0;
-      state.scanning = true;
-      render();
-      if (progressTimer) clearInterval(progressTimer);
-      progressTimer = setInterval(() => {
-        state.progress += 1;
-        if (state.progress % 20 === 0 && state.progress > 0 && state.progress < 100) {
-          playClap();
-        }
-        if (state.progress >= 100) {
-          clearInterval(progressTimer);
-          state.scanning = false;
-          state.progress = 100;
-          setStage(nextStage);
-          return;
-        }
-        render();
+  useEffect(() => {
+    if (scanning) {
+      const timer = setInterval(() => {
+        setProgress(prev => {
+          if (prev >= 100) {
+            clearInterval(timer);
+            setScanning(false);
+            if (stage === 'radar') {
+              setStage('noResults');
+            } else if (stage === 'ograshRadar') {
+              setStage('ograshResult');
+            }
+            return 100;
+          }
+          
+          // Play clap every 20% (5 times during scan)
+          if (prev % 20 === 0 && prev > 0) {
+            playClap();
+          }
+          
+          return prev + 1;
+        });
       }, 100);
+      return () => clearInterval(timer);
     }
+  }, [scanning, stage]);
 
-    function handleLocationSelect(loc) {
-      state.location = loc;
-      state.stage = 'radar';
-      startScan('noResults');
-    }
+  const handleLocationSelect = (loc) => {
+    setLocation(loc);
+    setStage('radar');
+    setScanning(true);
+    setProgress(0);
+  };
 
-    function handleOgrashSearch() {
-      state.stage = 'ograshRadar';
-      startScan('ograshResult');
-    }
+  const handleOgrashSearch = () => {
+    setStage('ograshRadar');
+    setScanning(true);
+    setProgress(0);
+  };
 
-    function reset() {
-      if (progressTimer) clearInterval(progressTimer);
-      state.stage = 'welcome';
-      state.location = '';
-      state.progress = 0;
-      state.scanning = false;
-      render();
-    }
+  const reset = () => {
+    setStage('welcome');
+    setLocation('');
+    setProgress(0);
+    setScanning(false);
+  };
 
-    function renderParticles() {
-      const container = document.getElementById('particles');
-      container.innerHTML = Array.from({ length: 20 })
-        .map(() => {
-          const left = Math.random() * 100;
-          const top = Math.random() * 100;
-          const duration = 5 + Math.random() * 10;
-          const delay = Math.random() * 5;
-          return `<div class="absolute w-2 h-2 bg-white/20 rounded-full" style="left:${left}%;top:${top}%;animation:float ${duration}s ease-in-out infinite;animation-delay:${delay}s"></div>`;
-        })
-        .join('');
-    }
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 flex items-center justify-center p-4 overflow-hidden relative">
+      {/* Animated background particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-2 h-2 bg-white/20 rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animation: `float ${5 + Math.random() * 10}s ease-in-out infinite`,
+              animationDelay: `${Math.random() * 5}s`
+            }}
+          />
+        ))}
+      </div>
 
-    function renderRadar(type) {
-      const color = type === 'mashallah' ? 'from-pink-500 via-orange-400/60' : 'from-green-500 via-emerald-400/60';
-      const dot = type === 'mashallah' ? 'from-pink-500 to-orange-500 glow-pink' : 'from-green-500 to-emerald-500 glow-green';
-      const circleColor = type === 'mashallah'
-        ? (i) => `rgba(255, ${150 - i * 20}, ${120 - i * 15}, ${0.4 - i * 0.06})`
-        : (i) => `rgba(34, 197, 94, ${0.4 - i * 0.06})`;
-      return `
-        <div class="relative w-96 h-96 mx-auto mb-10">
-          <div class="absolute inset-0 ${type === 'mashallah' ? 'bg-gradient-to-r from-pink-500/20 to-orange-500/20' : 'bg-gradient-to-r from-green-500/20 to-emerald-500/20'} rounded-full blur-3xl"></div>
-          ${[1,2,3,4,5].map(i => `
-            <div class="absolute radar-circle rounded-full transition-all duration-500"
-              style="width:${i*20}%;height:${i*20}%;left:${50 - i*10}%;top:${50 - i*10}%;border-color:${circleColor(i)}">
+      <style>{`
+        @keyframes radarSweep {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.6; transform: scale(1.1); }
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+          0%, 100% { transform: translateY(0) translateX(0); }
+          50% { transform: translateY(-20px) translateX(10px); }
+        }
+        
+        @keyframes glow {
+          0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.5); }
+          50% { box-shadow: 0 0 40px rgba(236, 72, 153, 0.8), 0 0 60px rgba(236, 72, 153, 0.4); }
+        }
+        
+        @keyframes glowGreen {
+          0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.5); }
+          50% { box-shadow: 0 0 40px rgba(34, 197, 94, 0.8), 0 0 60px rgba(34, 197, 94, 0.4); }
+        }
+        
+        .radar-sweep {
+          animation: radarSweep 2s linear infinite;
+        }
+        
+        .pulse {
+          animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .fade-in {
+          animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .glow-pink {
+          animation: glow 2s ease-in-out infinite;
+        }
+        
+        .glow-green {
+          animation: glowGreen 2s ease-in-out infinite;
+        }
+        
+        .radar-circle {
+          border: 2px solid rgba(255, 255, 255, 0.15);
+          box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+      `}</style>
+
+      {/* Welcome Stage */}
+      {stage === 'welcome' && (
+        <div className="max-w-3xl w-full fade-in relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-block mb-6 p-4 bg-gradient-to-r from-pink-500/20 to-orange-500/20 rounded-full backdrop-blur-sm border border-pink-500/30">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-pink-400"><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6L3.34 6.99A10 10 0 0 1 12 21"/><path d="M4 12L3.34 13A10 10 0 0 0 12 3"/><path d="M12 12l9-9"/><circle cx="12" cy="12" r="2"/></svg>
             </div>
-          `).join('')}
-          <div class="absolute top-1/2 left-1/2 w-6 h-6 bg-gradient-to-r ${dot} rounded-full transform -translate-x-1/2 -translate-y-1/2 pulse z-10"></div>
-          <div class="absolute top-1/2 left-1/2 w-full h-1 origin-left radar-sweep">
-            <div class="h-full bg-gradient-to-r ${color} to-transparent"></div>
+            <h1 className="text-7xl font-black text-white mb-6 tracking-tight">
+              Welcome, <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-orange-400 animate-pulse">Suad</span>
+            </h1>
+            <p className="text-2xl text-gray-300 font-light">Select your current location to begin scanning</p>
           </div>
-          <div class="absolute top-1/2 left-0 w-full h-px bg-white/10"></div>
-          <div class="absolute top-0 left-1/2 w-px h-full bg-white/10"></div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {locations.map((loc, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleLocationSelect(loc)}
+                className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md hover:from-white/20 hover:to-white/10 text-white p-7 rounded-3xl transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-white/20 hover:border-pink-400/50 relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-pink-500/0 via-pink-500/10 to-pink-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline-block mr-3 mb-1 group-hover:text-pink-400 transition-colors"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span className="text-xl font-semibold relative z-10">{loc}</span>
+              </button>
+            ))}
+          </div>
         </div>
-      `;
-    }
+      )}
 
-    function render() {
-      const app = document.getElementById('app');
-      const { stage, progress, location } = state;
+      {/* Mashallah Radar Stage */}
+      {stage === 'radar' && (
+        <div className="text-center fade-in relative z-10">
+          <div className="mb-8">
+            <h2 className="text-5xl font-black text-white mb-3 tracking-tight">Mashallah Locator</h2>
+            <p className="text-2xl text-gray-300 mb-1">Scanning near:</p>
+            <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-orange-400">{location}</p>
+          </div>
+          
+          <div className="relative w-96 h-96 mx-auto mb-10">
+            {/* Outer glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-pink-500/20 to-orange-500/20 rounded-full blur-3xl" />
+            
+            {/* Radar circles */}
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div
+                key={i}
+                className="absolute radar-circle rounded-full transition-all duration-500"
+                style={{
+                  width: `${i * 20}%`,
+                  height: `${i * 20}%`,
+                  left: `${50 - (i * 10)}%`,
+                  top: `${50 - (i * 10)}%`,
+                  borderColor: `rgba(255, ${150 - i * 20}, ${120 - i * 15}, ${0.4 - i * 0.06})`
+                }}
+              />
+            ))}
+            
+            {/* Center dot */}
+            <div className="absolute top-1/2 left-1/2 w-6 h-6 bg-gradient-to-r from-pink-500 to-orange-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 pulse glow-pink z-10" />
+            
+            {/* Radar sweep */}
+            <div className="absolute top-1/2 left-1/2 w-full h-1 origin-left radar-sweep">
+              <div className="h-full bg-gradient-to-r from-pink-500 via-orange-400/60 to-transparent" />
+            </div>
+            
+            {/* Grid lines */}
+            <div className="absolute top-1/2 left-0 w-full h-px bg-white/10" />
+            <div className="absolute top-0 left-1/2 w-px h-full bg-white/10" />
+          </div>
+          
+          <div className="space-y-4">
+            <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-orange-400">
+              Searching for Mashallahs...
+            </div>
+            <div className="w-80 h-3 bg-white/10 rounded-full mx-auto overflow-hidden border border-white/20">
+              <div
+                className="h-full bg-gradient-to-r from-pink-500 via-rose-400 to-orange-400 transition-all duration-100 shadow-lg"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <p className="text-gray-400 text-lg">{progress}% Complete</p>
+          </div>
+        </div>
+      )}
 
-      let content = '';
+      {/* No Results Stage */}
+      {stage === 'noResults' && (
+        <div className="text-center fade-in max-w-xl relative z-10">
+          <div className="text-8xl mb-8 animate-bounce">😔</div>
+          <h2 className="text-5xl font-black text-white mb-6 tracking-tight">No Mashallahs Found</h2>
+          <p className="text-2xl text-gray-300 mb-12 font-light">Unfortunately, there are no Mashallahs in your vicinity.</p>
+          
+          <button
+            onClick={handleOgrashSearch}
+            className="group relative bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 hover:from-green-600 hover:via-emerald-600 hover:to-green-700 text-white px-10 py-5 rounded-2xl text-xl font-bold transition-all duration-300 hover:scale-105 shadow-2xl overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+            <span className="relative flex items-center justify-center gap-2">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6L3.34 6.99A10 10 0 0 1 12 21"/><path d="M4 12L3.34 13A10 10 0 0 0 12 3"/><path d="M12 12l9-9"/><circle cx="12" cy="12" r="2"/></svg>
+              Search for Oğrashs instead?
+            </span>
+          </button>
+          
+          <button
+            onClick={reset}
+            className="block mx-auto mt-6 text-gray-400 hover:text-white transition-colors text-lg"
+          >
+            ← Go back
+          </button>
+        </div>
+      )}
 
-      if (stage === 'welcome') {
-        content = `
-          <div class="max-w-3xl w-full fade-in relative z-10">
-            <div class="text-center mb-16">
-              <div class="inline-block mb-6 p-4 bg-gradient-to-r from-pink-500/20 to-orange-500/20 rounded-full backdrop-blur-sm border border-pink-500/30">
-                <i data-lucide="radar" class="text-pink-400 w-12 h-12"></i>
-              </div>
-              <h1 class="text-7xl font-black text-white mb-6 tracking-tight">
-                Welcome, <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-orange-400 animate-pulse">Suad</span>
-              </h1>
-              <p class="text-2xl text-gray-300 font-light">Select your current location to begin scanning</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-              ${locations.map(loc => `
-                <button class="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md hover:from-white/20 hover:to-white/10 text-white p-7 rounded-3xl transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-white/20 hover:border-pink-400/50 relative overflow-hidden"
-                  data-action="select-location" data-location="${loc}">
-                  <div class="absolute inset-0 bg-gradient-to-r from-pink-500/0 via-pink-500/10 to-pink-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <i data-lucide="map-pin" class="inline-block mr-3 mb-1 group-hover:text-pink-400 transition-colors w-6 h-6"></i>
-                  <span class="text-xl font-semibold relative z-10">${loc}</span>
-                </button>
-              `).join('')}
-            </div>
+      {/* Ogrash Radar Stage */}
+      {stage === 'ograshRadar' && (
+        <div className="text-center fade-in relative z-10">
+          <div className="mb-8">
+            <h2 className="text-5xl font-black text-white mb-3 tracking-tight">Oğrash Locator</h2>
+            <p className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400 font-semibold">
+              Expanding global search radius...
+            </p>
           </div>
-        `;
-      } else if (stage === 'radar') {
-        content = `
-          <div class="text-center fade-in relative z-10">
-            <div class="mb-8">
-              <h2 class="text-5xl font-black text-white mb-3 tracking-tight">Mashallah Locator</h2>
-              <p class="text-2xl text-gray-300 mb-1">Scanning near:</p>
-              <p class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-orange-400">${location}</p>
+          
+          <div className="relative w-96 h-96 mx-auto mb-10">
+            {/* Outer glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full blur-3xl" />
+            
+            {/* Radar circles */}
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div
+                key={i}
+                className="absolute radar-circle rounded-full transition-all duration-500"
+                style={{
+                  width: `${i * 20}%`,
+                  height: `${i * 20}%`,
+                  left: `${50 - (i * 10)}%`,
+                  top: `${50 - (i * 10)}%`,
+                  borderColor: `rgba(34, 197, 94, ${0.4 - i * 0.06})`
+                }}
+              />
+            ))}
+            
+            {/* Center dot */}
+            <div className="absolute top-1/2 left-1/2 w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 pulse glow-green z-10" />
+            
+            {/* Radar sweep */}
+            <div className="absolute top-1/2 left-1/2 w-full h-1 origin-left radar-sweep">
+              <div className="h-full bg-gradient-to-r from-green-500 via-emerald-400/60 to-transparent" />
             </div>
-            ${renderRadar('mashallah')}
-            <div class="space-y-4">
-              <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-orange-400">
-                Searching for Mashallahs...
-              </div>
-              <div class="w-80 h-3 bg-white/10 rounded-full mx-auto overflow-hidden border border-white/20">
-                <div class="h-full bg-gradient-to-r from-pink-500 via-rose-400 to-orange-400 transition-all duration-100 shadow-lg" style="width:${progress}%"></div>
-              </div>
-              <p class="text-gray-400 text-lg">${progress}% Complete</p>
+            
+            {/* Grid lines */}
+            <div className="absolute top-1/2 left-0 w-full h-px bg-white/10" />
+            <div className="absolute top-0 left-1/2 w-px h-full bg-white/10" />
+          </div>
+          
+          <div className="space-y-4">
+            <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
+              Searching for Oğrashs...
             </div>
+            <div className="w-80 h-3 bg-white/10 rounded-full mx-auto overflow-hidden border border-white/20">
+              <div
+                className="h-full bg-gradient-to-r from-green-500 via-emerald-400 to-green-600 transition-all duration-100 shadow-lg"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <p className="text-gray-400 text-lg">{progress}% Complete</p>
           </div>
-        `;
-      } else if (stage === 'noResults') {
-        content = `
-          <div class="text-center fade-in max-w-xl relative z-10">
-            <div class="text-8xl mb-8 animate-bounce">😔</div>
-            <h2 class="text-5xl font-black text-white mb-6 tracking-tight">No Mashallahs Found</h2>
-            <p class="text-2xl text-gray-300 mb-12 font-light">Unfortunately, there are no Mashallahs in your vicinity.</p>
-            <button data-action="ogrash-search"
-              class="group relative bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 hover:from-green-600 hover:via-emerald-600 hover:to-green-700 text-white px-10 py-5 rounded-2xl text-xl font-bold transition-all duration-300 hover:scale-105 shadow-2xl overflow-hidden">
-              <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-              <span class="relative flex items-center justify-center gap-2">
-                <i data-lucide="radar" class="w-6 h-6"></i>
-                Search for Oğrashs instead?
-              </span>
-            </button>
-            <button data-action="reset"
-              class="block mx-auto mt-6 text-gray-400 hover:text-white transition-colors text-lg">
-              ← Go back
-            </button>
-          </div>
-        `;
-      } else if (stage === 'ograshRadar') {
-        content = `
-          <div class="text-center fade-in relative z-10">
-            <div class="mb-8">
-              <h2 class="text-5xl font-black text-white mb-3 tracking-tight">Oğrash Locator</h2>
-              <p class="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400 font-semibold">
-                Expanding global search radius...
+        </div>
+      )}
+
+      {/* Ogrash Result Stage */}
+      {stage === 'ograshResult' && (
+        <div className="text-center fade-in max-w-2xl relative z-10">
+          <div className="text-8xl mb-8">📍</div>
+          <h2 className="text-5xl font-black text-white mb-8 tracking-tight">Oğrash Located!</h2>
+          
+          <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-10 mb-8 shadow-2xl">
+            <div className="mb-8">
+              <p className="text-xl text-gray-300 mb-2">Nearest Oğrash:</p>
+              <p className="text-5xl text-white font-black mb-6 flex items-center justify-center gap-3">
+                <span className="text-6xl">🇺🇸</span> Arizona, USA
               </p>
             </div>
-            ${renderRadar('ogrash')}
-            <div class="space-y-4">
-              <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
-                Searching for Oğrashs...
-              </div>
-              <div class="w-80 h-3 bg-white/10 rounded-full mx-auto overflow-hidden border border-white/20">
-                <div class="h-full bg-gradient-to-r from-green-500 via-emerald-400 to-green-600 transition-all duration-100 shadow-lg" style="width:${progress}%"></div>
-              </div>
-              <p class="text-gray-400 text-lg">${progress}% Complete</p>
+            
+            <div className="flex items-center justify-center gap-2 mb-8">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-400"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"/></svg>
+              <p className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500">
+                8,552 km
+              </p>
+              <span className="text-2xl text-gray-400">away</span>
             </div>
-          </div>
-        `;
-      } else if (stage === 'ograshResult') {
-        content = `
-          <div class="text-center fade-in max-w-2xl relative z-10">
-            <div class="text-8xl mb-8">📍</div>
-            <h2 class="text-5xl font-black text-white mb-8 tracking-tight">Oğrash Located!</h2>
-            <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-10 mb-8 shadow-2xl">
-              <div class="mb-8">
-                <p class="text-xl text-gray-300 mb-2">Nearest Oğrash:</p>
-                <p class="text-5xl text-white font-black mb-6 flex items-center justify-center gap-3">
-                  <span class="text-6xl">🇺🇸</span> Arizona, USA
-                </p>
-              </div>
-              <div class="flex items-center justify-center gap-2 mb-8">
-                <i data-lucide="zap" class="text-orange-400 w-8 h-8"></i>
-                <p class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500">
-                  8,552 km
-                </p>
-                <span class="text-2xl text-gray-400">away</span>
-              </div>
-              <div class="border-t border-white/20 pt-8">
-                <p class="text-sm text-gray-400 uppercase tracking-wider mb-4">Subject Profile</p>
-                <div class="grid grid-cols-2 gap-6 text-left">
-                  <div class="bg-white/5 p-4 rounded-xl border border-white/10">
-                    <p class="text-gray-400 text-sm mb-1">Initials</p>
-                    <p class="text-3xl font-bold text-green-400">MM</p>
-                  </div>
-                  <div class="bg-white/5 p-4 rounded-xl border border-white/10">
-                    <p class="text-gray-400 text-sm mb-1">Power Level</p>
-                    <p class="text-xl font-bold text-orange-400">800 Quadrillion HP</p>
-                  </div>
+            
+            <div className="border-t border-white/20 pt-8">
+              <p className="text-sm text-gray-400 uppercase tracking-wider mb-4">Subject Profile</p>
+              <div className="grid grid-cols-2 gap-6 text-left">
+                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                  <p className="text-gray-400 text-sm mb-1">Initials</p>
+                  <p className="text-3xl font-bold text-green-400">MM</p>
+                </div>
+                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                  <p className="text-gray-400 text-sm mb-1">Power Level</p>
+                  <p className="text-xl font-bold text-orange-400">800 Quadrillion HP</p>
                 </div>
               </div>
             </div>
-            <button data-action="reset"
-              class="bg-gradient-to-r from-white/10 to-white/5 hover:from-white/20 hover:to-white/10 text-white px-10 py-4 rounded-2xl text-xl font-semibold transition-all duration-300 hover:scale-105 border border-white/20 backdrop-blur-sm">
-              Search Again
-            </button>
           </div>
-        `;
-      }
+          
+          <button
+            onClick={reset}
+            className="bg-gradient-to-r from-white/10 to-white/5 hover:from-white/20 hover:to-white/10 text-white px-10 py-4 rounded-2xl text-xl font-semibold transition-all duration-300 hover:scale-105 border border-white/20 backdrop-blur-sm"
+          >
+            Search Again
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 
-      app.innerHTML = content;
-      lucide.createIcons();
-      attachHandlers();
-    }
-
-    function attachHandlers() {
-      document.querySelectorAll('[data-action="select-location"]').forEach(btn => {
-        btn.addEventListener('click', () => handleLocationSelect(btn.dataset.location));
-      });
-      const ograshBtn = document.querySelector('[data-action="ogrash-search"]');
-      if (ograshBtn) ograshBtn.addEventListener('click', handleOgrashSearch);
-      document.querySelectorAll('[data-action="reset"]').forEach(btn => {
-        btn.addEventListener('click', reset);
-      });
-    }
-
-    renderParticles();
-    render();
-  </script>
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<MashallahLocator />);
+    </script>
 </body>
 </html>
-
