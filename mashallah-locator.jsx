@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MapPin, Radar, Zap } from 'lucide-react';
 
 export default function MashallahLocator() {
   const [stage, setStage] = useState('welcome');
@@ -178,7 +177,7 @@ export default function MashallahLocator() {
         <div className="max-w-3xl w-full fade-in relative z-10">
           <div className="text-center mb-16">
             <div className="inline-block mb-6 p-4 bg-gradient-to-r from-pink-500/20 to-orange-500/20 rounded-full backdrop-blur-sm border border-pink-500/30">
-              <Radar size={48} className="text-pink-400" />
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-pink-400"><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6L3.34 6.99A10 10 0 0 1 12 21"/><path d="M4 12L3.34 13A10 10 0 0 0 12 3"/><path d="M12 12l9-9"/><circle cx="12" cy="12" r="2"/></svg>
             </div>
             <h1 className="text-7xl font-black text-white mb-6 tracking-tight">
               Welcome, <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-orange-400 animate-pulse">Suad</span>
@@ -194,7 +193,7 @@ export default function MashallahLocator() {
                 className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md hover:from-white/20 hover:to-white/10 text-white p-7 rounded-3xl transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-white/20 hover:border-pink-400/50 relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-pink-500/0 via-pink-500/10 to-pink-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <MapPin className="inline-block mr-3 mb-1 group-hover:text-pink-400 transition-colors" size={24} />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline-block mr-3 mb-1 group-hover:text-pink-400 transition-colors"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                 <span className="text-xl font-semibold relative z-10">{loc}</span>
               </button>
             ))}
@@ -271,7 +270,7 @@ export default function MashallahLocator() {
           >
             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
             <span className="relative flex items-center justify-center gap-2">
-              <Radar size={24} />
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6L3.34 6.99A10 10 0 0 1 12 21"/><path d="M4 12L3.34 13A10 10 0 0 0 12 3"/><path d="M12 12l9-9"/><circle cx="12" cy="12" r="2"/></svg>
               Search for Oğrashs instead?
             </span>
           </button>
@@ -357,7 +356,7 @@ export default function MashallahLocator() {
             </div>
             
             <div className="flex items-center justify-center gap-2 mb-8">
-              <Zap className="text-orange-400" size={32} />
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-400"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"/></svg>
               <p className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500">
                 8,552 km
               </p>
@@ -390,3 +389,5 @@ export default function MashallahLocator() {
     </div>
   );
 }
+
+ReactDOM.createRoot(document.getElementById('root')).render(<MashallahLocator />);
