@@ -1,413 +1,4992 @@
 <!DOCTYPE html>
-<!-- test -->
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mashallah Locator - For Suad</title>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-    <div id="root"></div>
-    <script type="text/babel" data-presets="react">
-const { useState, useEffect, useRef } = React;
+<html>
 
-function MashallahLocator() {
-  const [stage, setStage] = useState('welcome');
-  const [location, setLocation] = useState('');
-  const [scanning, setScanning] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const audioContextRef = useRef(null);
+ <head>
 
-  const locations = [
-    'Dorm',
-    'Campus',
-    'Coca-Cola Factory',
-    'Gym',
-    'Supermarket free supply spot',
-    'Jail',
-    'Port Baku',
-    "William Wallace's Daşşaq"
-  ];
+  <meta charset="utf-8"/>
+<title>Exported Data</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
-  // Initialize audio context
-  useEffect(() => {
-    audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
-  }, []);
+  <link href="css/style.css" rel="stylesheet"/>
 
-  // Play clap sound
-  const playClap = () => {
-    if (!audioContextRef.current) return;
-    
-    const ctx = audioContextRef.current;
-    const oscillator = ctx.createOscillator();
-    const gainNode = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
-    
-    oscillator.connect(filter);
-    filter.connect(gainNode);
-    gainNode.connect(ctx.destination);
-    
-    oscillator.type = 'triangle';
-    oscillator.frequency.setValueAtTime(800, ctx.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.1);
-    
-    filter.type = 'bandpass';
-    filter.frequency.value = 1000;
-    
-    gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-    
-    oscillator.start(ctx.currentTime);
-    oscillator.stop(ctx.currentTime + 0.1);
-  };
+  <script src="js/script.js" type="text/javascript">
 
-  useEffect(() => {
-    if (scanning) {
-      const timer = setInterval(() => {
-        setProgress(prev => {
-          if (prev >= 100) {
-            clearInterval(timer);
-            setScanning(false);
-            if (stage === 'radar') {
-              setStage('noResults');
-            } else if (stage === 'ograshRadar') {
-              setStage('ograshResult');
-            }
-            return 100;
-          }
-          
-          // Play clap every 20% (5 times during scan)
-          if (prev % 20 === 0 && prev > 0) {
-            playClap();
-          }
-          
-          return prev + 1;
-        });
-      }, 100);
-      return () => clearInterval(timer);
-    }
-  }, [scanning, stage]);
+  </script>
 
-  const handleLocationSelect = (loc) => {
-    setLocation(loc);
-    setStage('radar');
-    setScanning(true);
-    setProgress(0);
-  };
+ </head>
 
-  const handleOgrashSearch = () => {
-    setStage('ograshRadar');
-    setScanning(true);
-    setProgress(0);
-  };
+ <body onload="CheckLocation();">
 
-  const reset = () => {
-    setStage('welcome');
-    setLocation('');
-    setProgress(0);
-    setScanning(false);
-  };
+  <div class="page_wrap">
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 flex items-center justify-center p-4 overflow-hidden relative">
-      {/* Animated background particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-white/20 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `float ${5 + Math.random() * 10}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 5}s`
-            }}
-          />
-        ))}
+   <div class="page_header">
+
+    <div class="content">
+
+     <div class="text bold">
+Alex 
+     </div>
+
+    </div>
+
+   </div>
+
+   <div class="page_body chat_page">
+
+    <div class="history">
+
+     <div class="message service" id="message-1">
+
+      <div class="body details">
+22 November 2025
       </div>
 
-      <style>{`
-        @keyframes radarSweep {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        
-        @keyframes pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.6; transform: scale(1.1); }
-        }
-        
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes float {
-          0%, 100% { transform: translateY(0) translateX(0); }
-          50% { transform: translateY(-20px) translateX(10px); }
-        }
-        
-        @keyframes glow {
-          0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.5); }
-          50% { box-shadow: 0 0 40px rgba(236, 72, 153, 0.8), 0 0 60px rgba(236, 72, 153, 0.4); }
-        }
-        
-        @keyframes glowGreen {
-          0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.5); }
-          50% { box-shadow: 0 0 40px rgba(34, 197, 94, 0.8), 0 0 60px rgba(34, 197, 94, 0.4); }
-        }
-        
-        .radar-sweep {
-          animation: radarSweep 2s linear infinite;
-        }
-        
-        .pulse {
-          animation: pulse 2s ease-in-out infinite;
-        }
-        
-        .fade-in {
-          animation: fadeIn 0.8s ease-out forwards;
-        }
-        
-        .glow-pink {
-          animation: glow 2s ease-in-out infinite;
-        }
-        
-        .glow-green {
-          animation: glowGreen 2s ease-in-out infinite;
-        }
-        
-        .radar-circle {
-          border: 2px solid rgba(255, 255, 255, 0.15);
-          box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-        }
-      `}</style>
+     </div>
 
-      {/* Welcome Stage */}
-      {stage === 'welcome' && (
-        <div className="max-w-3xl w-full fade-in relative z-10">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-6 p-4 bg-gradient-to-r from-pink-500/20 to-orange-500/20 rounded-full backdrop-blur-sm border border-pink-500/30">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-pink-400"><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6L3.34 6.99A10 10 0 0 1 12 21"/><path d="M4 12L3.34 13A10 10 0 0 0 12 3"/><path d="M12 12l9-9"/><circle cx="12" cy="12" r="2"/></svg>
-            </div>
-            <h1 className="text-7xl font-black text-white mb-6 tracking-tight">
-              Welcome, <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-orange-400 animate-pulse">Suad</span>
-            </h1>
-            <p className="text-2xl text-gray-300 font-light">Select your current location to begin scanning</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {locations.map((loc, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleLocationSelect(loc)}
-                className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md hover:from-white/20 hover:to-white/10 text-white p-7 rounded-3xl transition-all duration-300 hover:scale-105 hover:shadow-2xl border border-white/20 hover:border-pink-400/50 relative overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-pink-500/0 via-pink-500/10 to-pink-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline-block mr-3 mb-1 group-hover:text-pink-400 transition-colors"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                <span className="text-xl font-semibold relative z-10">{loc}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+     <div class="message default clearfix" id="message279417">
 
-      {/* Mashallah Radar Stage */}
-      {stage === 'radar' && (
-        <div className="text-center fade-in relative z-10">
-          <div className="mb-8">
-            <h2 className="text-5xl font-black text-white mb-3 tracking-tight">Mashallah Locator</h2>
-            <p className="text-2xl text-gray-300 mb-1">Scanning near:</p>
-            <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-orange-400">{location}</p>
-          </div>
-          
-          <div className="relative w-96 h-96 mx-auto mb-10">
-            {/* Outer glow */}
-            <div className="absolute inset-0 bg-gradient-to-r from-pink-500/20 to-orange-500/20 rounded-full blur-3xl" />
-            
-            {/* Radar circles */}
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div
-                key={i}
-                className="absolute radar-circle rounded-full transition-all duration-500"
-                style={{
-                  width: `${i * 20}%`,
-                  height: `${i * 20}%`,
-                  left: `${50 - (i * 10)}%`,
-                  top: `${50 - (i * 10)}%`,
-                  borderColor: `rgba(255, ${150 - i * 20}, ${120 - i * 15}, ${0.4 - i * 0.06})`
-                }}
-              />
-            ))}
-            
-            {/* Center dot */}
-            <div className="absolute top-1/2 left-1/2 w-6 h-6 bg-gradient-to-r from-pink-500 to-orange-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 pulse glow-pink z-10" />
-            
-            {/* Radar sweep */}
-            <div className="absolute top-1/2 left-1/2 w-full h-1 origin-left radar-sweep">
-              <div className="h-full bg-gradient-to-r from-pink-500 via-orange-400/60 to-transparent" />
-            </div>
-            
-            {/* Grid lines */}
-            <div className="absolute top-1/2 left-0 w-full h-px bg-white/10" />
-            <div className="absolute top-0 left-1/2 w-px h-full bg-white/10" />
-          </div>
-          
-          <div className="space-y-4">
-            <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-orange-400">
-              Searching for Mashallahs...
-            </div>
-            <div className="w-80 h-3 bg-white/10 rounded-full mx-auto overflow-hidden border border-white/20">
-              <div
-                className="h-full bg-gradient-to-r from-pink-500 via-rose-400 to-orange-400 transition-all duration-100 shadow-lg"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-            <p className="text-gray-400 text-lg">{progress}% Complete</p>
-          </div>
-        </div>
-      )}
+      <div class="pull_left userpic_wrap">
 
-      {/* No Results Stage */}
-      {stage === 'noResults' && (
-        <div className="text-center fade-in max-w-xl relative z-10">
-          <div className="text-8xl mb-8 animate-bounce">😔</div>
-          <h2 className="text-5xl font-black text-white mb-6 tracking-tight">No Mashallahs Found</h2>
-          <p className="text-2xl text-gray-300 mb-12 font-light">Unfortunately, there are no Mashallahs in your vicinity.</p>
-          
-          <button
-            onClick={handleOgrashSearch}
-            className="group relative bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 hover:from-green-600 hover:via-emerald-600 hover:to-green-700 text-white px-10 py-5 rounded-2xl text-xl font-bold transition-all duration-300 hover:scale-105 shadow-2xl overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-            <span className="relative flex items-center justify-center gap-2">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6L3.34 6.99A10 10 0 0 1 12 21"/><path d="M4 12L3.34 13A10 10 0 0 0 12 3"/><path d="M12 12l9-9"/><circle cx="12" cy="12" r="2"/></svg>
-              Search for Oğrashs instead?
-            </span>
-          </button>
-          
-          <button
-            onClick={reset}
-            className="block mx-auto mt-6 text-gray-400 hover:text-white transition-colors text-lg"
-          >
-            ← Go back
-          </button>
-        </div>
-      )}
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
 
-      {/* Ogrash Radar Stage */}
-      {stage === 'ograshRadar' && (
-        <div className="text-center fade-in relative z-10">
-          <div className="mb-8">
-            <h2 className="text-5xl font-black text-white mb-3 tracking-tight">Oğrash Locator</h2>
-            <p className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400 font-semibold">
-              Expanding global search radius...
-            </p>
-          </div>
-          
-          <div className="relative w-96 h-96 mx-auto mb-10">
-            {/* Outer glow */}
-            <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full blur-3xl" />
-            
-            {/* Radar circles */}
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div
-                key={i}
-                className="absolute radar-circle rounded-full transition-all duration-500"
-                style={{
-                  width: `${i * 20}%`,
-                  height: `${i * 20}%`,
-                  left: `${50 - (i * 10)}%`,
-                  top: `${50 - (i * 10)}%`,
-                  borderColor: `rgba(34, 197, 94, ${0.4 - i * 0.06})`
-                }}
-              />
-            ))}
-            
-            {/* Center dot */}
-            <div className="absolute top-1/2 left-1/2 w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 pulse glow-green z-10" />
-            
-            {/* Radar sweep */}
-            <div className="absolute top-1/2 left-1/2 w-full h-1 origin-left radar-sweep">
-              <div className="h-full bg-gradient-to-r from-green-500 via-emerald-400/60 to-transparent" />
-            </div>
-            
-            {/* Grid lines */}
-            <div className="absolute top-1/2 left-0 w-full h-px bg-white/10" />
-            <div className="absolute top-0 left-1/2 w-px h-full bg-white/10" />
-          </div>
-          
-          <div className="space-y-4">
-            <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
-              Searching for Oğrashs...
-            </div>
-            <div className="w-80 h-3 bg-white/10 rounded-full mx-auto overflow-hidden border border-white/20">
-              <div
-                className="h-full bg-gradient-to-r from-green-500 via-emerald-400 to-green-600 transition-all duration-100 shadow-lg"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-            <p className="text-gray-400 text-lg">{progress}% Complete</p>
-          </div>
+        <div class="initials" style="line-height: 42px">
+A
         </div>
-      )}
 
-      {/* Ogrash Result Stage */}
-      {stage === 'ograshResult' && (
-        <div className="text-center fade-in max-w-2xl relative z-10">
-          <div className="text-8xl mb-8">📍</div>
-          <h2 className="text-5xl font-black text-white mb-8 tracking-tight">Oğrash Located!</h2>
-          
-          <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-3xl p-10 mb-8 shadow-2xl">
-            <div className="mb-8">
-              <p className="text-xl text-gray-300 mb-2">Nearest Oğrash:</p>
-              <p className="text-5xl text-white font-black mb-6 flex items-center justify-center gap-3">
-                <span className="text-6xl">🇺🇸</span> Arizona, USA
-              </p>
-            </div>
-            
-            <div className="flex items-center justify-center gap-2 mb-8">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-400"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"/></svg>
-              <p className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500">
-                8,552 km
-              </p>
-              <span className="text-2xl text-gray-400">away</span>
-            </div>
-            
-            <div className="border-t border-white/20 pt-8">
-              <p className="text-sm text-gray-400 uppercase tracking-wider mb-4">Subject Profile</p>
-              <div className="grid grid-cols-2 gap-6 text-left">
-                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                  <p className="text-gray-400 text-sm mb-1">Initials</p>
-                  <p className="text-3xl font-bold text-green-400">MM</p>
-                </div>
-                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                  <p className="text-gray-400 text-sm mb-1">Power Level</p>
-                  <p className="text-xl font-bold text-orange-400">800 Quadrillion HP</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <button
-            onClick={reset}
-            className="bg-gradient-to-r from-white/10 to-white/5 hover:from-white/20 hover:to-white/10 text-white px-10 py-4 rounded-2xl text-xl font-semibold transition-all duration-300 hover:scale-105 border border-white/20 backdrop-blur-sm"
-          >
-            Search Again
-          </button>
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 10:58:15 UTC+01:00">
+10:58
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+Привет. Можешь пожалуйста передать сообщение коле и нигяр. Они знают кто я просто меня блокнули. Коля очень жёстко наебывает нигяр и я не хочу чтобы это было. Я не саша как представлялся раньше я другой человек тоже из круга коли и знаю про нигяр и про ее бывшего. Коля изменяет нигяр буквально недавно он общался с одной девочкой назрин притворяясь другим человеком. Еще до отношений с нигяр он общался с другой девушкой (даже с ней встречался) я просто хочу чтобы нигяр это знала оставаться с ним или нет это ее выбор но я хочу помочь ей
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279426">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
         </div>
-      )}
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 11:29:32 UTC+01:00">
+11:29
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="media_wrap clearfix">
+
+        <div class="media clearfix pull_left media_call">
+
+         <div class="fill pull_left">
+
+         </div>
+
+         <div class="body">
+
+          <div class="title bold">
+TheBlatherkite
+          </div>
+
+          <div class="status details">
+Missed
+          </div>
+
+         </div>
+
+        </div>
+
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279448">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:08:37 UTC+01:00">
+13:08
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+Мне еще одна девочка сказала что общалась с ним еще вчера пока он в университете был
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279449">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:17:17 UTC+01:00">
+13:17
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="media_wrap clearfix">
+
+        <div class="media clearfix pull_left media_call success">
+
+         <div class="fill pull_left">
+
+         </div>
+
+         <div class="body">
+
+          <div class="title bold">
+Alex
+          </div>
+
+          <div class="status details">
+Outgoing (34 seconds)
+          </div>
+
+         </div>
+
+        </div>
+
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279450">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:17:45 UTC+01:00">
+13:17
+       </div>
+
+       <div class="text">
+Здравствуйте, а что собственно говоря случилось
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279453">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:18:14 UTC+01:00">
+13:18
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279450" onclick="return GoToMessage(279450)">this message</a>
+       </div>
+
+       <div class="text">
+Читать не умеешь?
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279455">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:18:49 UTC+01:00">
+13:18
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Нет читать я умею, просто я бы хотел узнать деталей, а то не с того ни с сего такой текст
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279456">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:19:03 UTC+01:00">
+13:19
+       </div>
+
+       <div class="text">
+Что Коля изменщик и что происходит
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279457">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:19:06 UTC+01:00">
+13:19
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279455" onclick="return GoToMessage(279455)">this message</a>
+       </div>
+
+       <div class="text">
+Не люблю изменщиков
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279458">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:19:13 UTC+01:00">
+13:19
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Я своего друга знаю, он никому не изменял
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279459">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:19:20 UTC+01:00">
+13:19
+       </div>
+
+       <div class="text">
+Поэтому хотелось бы узнать детали
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279460">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:19:23 UTC+01:00">
+13:19
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279458" onclick="return GoToMessage(279458)">this message</a>
+       </div>
+
+       <div class="text">
+Видимо плохо знаешь
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279462">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:19:35 UTC+01:00">
+13:19
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279459" onclick="return GoToMessage(279459)">this message</a>
+       </div>
+
+       <div class="text">
+Какие детали тебе интересны?
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279463">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:19:56 UTC+01:00">
+13:19
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279462" onclick="return GoToMessage(279462)">this message</a>
+       </div>
+
+       <div class="text">
+Ну во первых откуда инфа, я так понимаю кто ты такой/такая бесполезно спрашивать
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279464">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:20:11 UTC+01:00">
+13:20
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279463" onclick="return GoToMessage(279463)">this message</a>
+       </div>
+
+       <div class="text">
+Город маленький
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279465">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:20:13 UTC+01:00">
+13:20
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Я уважаю анонимность, хотябы на ранних этапах
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279466">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:20:23 UTC+01:00">
+13:20
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279464" onclick="return GoToMessage(279464)">this message</a>
+       </div>
+
+       <div class="text">
+Знакомых много
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279467">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:20:28 UTC+01:00">
+13:20
+       </div>
+
+       <div class="text">
+А колей в баку мало
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279468">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:20:30 UTC+01:00">
+13:20
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279457" onclick="return GoToMessage(279457)">this message</a>
+       </div>
+
+       <div class="text">
+Я тоже, это самое худшее что может сделать мужчина
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279469">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:20:58 UTC+01:00">
+13:20
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279468" onclick="return GoToMessage(279468)">this message</a>
+       </div>
+
+       <div class="text">
+Ну вот
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279474">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:21:10 UTC+01:00">
+13:21
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279467" onclick="return GoToMessage(279467)">this message</a>
+       </div>
+
+       <div class="text">
+Допустим, а зачем тебе Нигяр помогать?
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279476">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:21:21 UTC+01:00">
+13:21
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+Не хочу чтобы бедная девочка страдала
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279479">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:21:40 UTC+01:00">
+13:21
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Резонно
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279480">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:21:57 UTC+01:00">
+13:21
+       </div>
+
+       <div class="text">
+А какие пруфы, сам понимаешь слово моего друга против слова незнакомца
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279481">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:22:03 UTC+01:00">
+13:22
+       </div>
+
+       <div class="text">
+Почему я должен тебе верить
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279482">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:22:14 UTC+01:00">
+13:22
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279480" onclick="return GoToMessage(279480)">this message</a>
+       </div>
+
+       <div class="media_wrap clearfix">
+
+        <a class="photo_wrap clearfix pull_left" href="photos/photo_1@22-11-2025_13-22-14.jpg">
+
+         <img class="photo" src="photos/photo_1@22-11-2025_13-22-14_thumb.jpg" style="width: 207px; height: 260px"/>
+
+        </a>
+
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279486">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:22:52 UTC+01:00">
+13:22
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279482" onclick="return GoToMessage(279482)">this message</a>
+       </div>
+
+       <div class="text">
+Он познакомился с кем-то в дайвинчике??
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279489">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:23:05 UTC+01:00">
+13:23
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279486" onclick="return GoToMessage(279486)">this message</a>
+       </div>
+
+       <div class="text">
+Да с левого ака
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279492">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:23:28 UTC+01:00">
+13:23
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Да блять да нет
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279493">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:23:39 UTC+01:00">
+13:23
+       </div>
+
+       <div class="text">
+Куда Коля куда дайвинчик и левый акк
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279494">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:23:47 UTC+01:00">
+13:23
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279493" onclick="return GoToMessage(279493)">this message</a>
+       </div>
+
+       <div class="text">
+Ну вот так случилось
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279495">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:24:15 UTC+01:00">
+13:24
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279482" onclick="return GoToMessage(279482)">this message</a>
+       </div>
+
+       <div class="text">
+А кто это, твоя подруга или ты тоже представился анонимом с ней?
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279496">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:24:27 UTC+01:00">
+13:24
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279495" onclick="return GoToMessage(279495)">this message</a>
+       </div>
+
+       <div class="text">
+В дайвинчике как раз и познакомились
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279497">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:24:41 UTC+01:00">
+13:24
+       </div>
+
+       <div class="text">
+И она говорила про одного парня и я заинтересовался кто это
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279500">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:24:45 UTC+01:00">
+13:24
+       </div>
+
+       <div class="text">
+И понял что это коля
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279501">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:24:58 UTC+01:00">
+13:24
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279495" onclick="return GoToMessage(279495)">this message</a>
+       </div>
+
+       <div class="text">
+С ней как раз не анонимно
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279502">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:25:02 UTC+01:00">
+13:25
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279500" onclick="return GoToMessage(279500)">this message</a>
+       </div>
+
+       <div class="text">
+А я так понимаю ты его лично знаешь
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279503">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:25:04 UTC+01:00">
+13:25
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+Ибо в дв познакомились
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279504">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:25:14 UTC+01:00">
+13:25
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279502" onclick="return GoToMessage(279502)">this message</a>
+       </div>
+
+       <div class="text">
+Нет косвенно
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279505">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:25:32 UTC+01:00">
+13:25
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279501" onclick="return GoToMessage(279501)">this message</a>
+       </div>
+
+       <div class="text">
+А почему со мной анонимно тогда, двойные стандарты какие-то. Тебе же легче верить если ты не аноним
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279506">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:25:44 UTC+01:00">
+13:25
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279505" onclick="return GoToMessage(279505)">this message</a>
+       </div>
+
+       <div class="text">
+Ты друг коли
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279507">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:25:48 UTC+01:00">
+13:25
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Я его близкий друг но я в первую очередь мужчина, и такого в сторону его девушки не потерплю
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279508">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:26:01 UTC+01:00">
+13:26
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279507" onclick="return GoToMessage(279507)">this message</a>
+       </div>
+
+       <div class="text">
+А скажу я тебе свое имя
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279509">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:26:06 UTC+01:00">
+13:26
+       </div>
+
+       <div class="text">
+Могу спиздеть
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279510">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:26:24 UTC+01:00">
+13:26
+       </div>
+
+       <div class="text">
+Пойдешь скажешь коле, коля будет искать другого
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279511">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:26:25 UTC+01:00">
+13:26
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279507" onclick="return GoToMessage(279507)">this message</a>
+       </div>
+
+       <div class="text">
+Я могу хоть сегодня с ней встретится и отдать весь компромат
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279512">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:26:33 UTC+01:00">
+13:26
+       </div>
+
+       <div class="text">
+Если я тебе поверю то она поверит мне, я её знаю
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279513">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:26:54 UTC+01:00">
+13:26
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279511" onclick="return GoToMessage(279511)">this message</a>
+       </div>
+
+       <div class="text">
+К сожалению явного компромата нет только радио
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279514">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:27:02 UTC+01:00">
+13:27
+       </div>
+
+       <div class="text">
+Коля хорошо за собой следы чистит
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279515">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:27:08 UTC+01:00">
+13:27
+       </div>
+
+       <div class="text">
+Видимо нигяр контролирует
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279516">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:27:13 UTC+01:00">
+13:27
+       </div>
+
+       <div class="text">
+Но что то упустила
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279517">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:27:26 UTC+01:00">
+13:27
+       </div>
+
+       <div class="text">
+Мое дело предупредить ее дело подумать
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279518">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:27:26 UTC+01:00">
+13:27
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279509" onclick="return GoToMessage(279509)">this message</a>
+       </div>
+
+       <div class="text">
+Так у тебя и так фейк имя Алекс, какая хуй разница. Я тебя прошу именно о настоящем имени, чтобы понять что тебе можно верить и пойти разобраться с ним в вопросе если ты сам не можешь
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279519">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:27:38 UTC+01:00">
+13:27
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+Я не собираюсь их разлучать
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279520">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:27:56 UTC+01:00">
+13:27
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279513" onclick="return GoToMessage(279513)">this message</a>
+       </div>
+
+       <div class="text">
+Тогда тем более, я гарант доверия в сторону Нигяр, и с Колей пойду разбираться сам
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279521">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:28:08 UTC+01:00">
+13:28
+       </div>
+
+       <div class="text">
+Она его любит, а изменять ей это блять последнее дело
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279522">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:28:09 UTC+01:00">
+13:28
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279518" onclick="return GoToMessage(279518)">this message</a>
+       </div>
+
+       <div class="text">
+Ну допустим меня зовут мага
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279523">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:28:29 UTC+01:00">
+13:28
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279521" onclick="return GoToMessage(279521)">this message</a>
+       </div>
+
+       <div class="text">
+Ну вот так случилосб
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279524">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:28:31 UTC+01:00">
+13:28
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279522" onclick="return GoToMessage(279522)">this message</a>
+       </div>
+
+       <div class="text">
+Ну а если не пиздеть
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279525">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:29:10 UTC+01:00">
+13:29
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279524" onclick="return GoToMessage(279524)">this message</a>
+       </div>
+
+       <div class="text">
+Не хочу доверия к тебе нет
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279526">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:29:51 UTC+01:00">
+13:29
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279525" onclick="return GoToMessage(279525)">this message</a>
+       </div>
+
+       <div class="text">
+Резонно, все логично. Но я хочу все по честному, если базарим то базарим, как я могу его заработать?
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279527">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:30:16 UTC+01:00">
+13:30
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279526" onclick="return GoToMessage(279526)">this message</a>
+       </div>
+
+       <div class="text">
+Можно
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279528">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:30:21 UTC+01:00">
+13:30
+       </div>
+
+       <div class="text">
+Но со временем
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279529">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:30:37 UTC+01:00">
+13:30
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279528" onclick="return GoToMessage(279528)">this message</a>
+       </div>
+
+       <div class="text">
+Логично
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279530">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:30:53 UTC+01:00">
+13:30
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279529" onclick="return GoToMessage(279529)">this message</a>
+       </div>
+
+       <div class="text">
+Ну вот я дал тебе инфу
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279531">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:30:58 UTC+01:00">
+13:30
+       </div>
+
+       <div class="text">
+Твое дело это ее обработать
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279532">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:31:11 UTC+01:00">
+13:31
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Хорошо погоди, с девочкой с университета я понял, а остальные измены, как ты о них знаешь?
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279533">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:31:16 UTC+01:00">
+13:31
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279531" onclick="return GoToMessage(279531)">this message</a>
+       </div>
+
+       <div class="text">
+В плане
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279534">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:31:30 UTC+01:00">
+13:31
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279532" onclick="return GoToMessage(279532)">this message</a>
+       </div>
+
+       <div class="text">
+Много с кем в дв сидел
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279535">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:31:36 UTC+01:00">
+13:31
+       </div>
+
+       <div class="text">
+И почему то везде коля фигурируеь
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279536">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:32:03 UTC+01:00">
+13:32
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279535" onclick="return GoToMessage(279535)">this message</a>
+       </div>
+
+       <div class="text">
+Он че пол города переебал что-ли
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279537">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:32:30 UTC+01:00">
+13:32
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+Не переебал просто разговаривал
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279538">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:32:32 UTC+01:00">
+13:32
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Да блять он учится в Авиации на кафедре физики откуда у него время общаться с девчонками
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279539">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:32:33 UTC+01:00">
+13:32
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+Он же украинец верно?
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279540">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:32:44 UTC+01:00">
+13:32
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279539" onclick="return GoToMessage(279539)">this message</a>
+       </div>
+
+       <div class="text">
+Ну допустим, а к чему это?
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279541">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:32:56 UTC+01:00">
+13:32
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279538" onclick="return GoToMessage(279538)">this message</a>
+       </div>
+
+       <div class="text">
+Меня поймать пытаешься?
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279542">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:33:00 UTC+01:00">
+13:33
+       </div>
+
+       <div class="text">
+Он не физик
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279543">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:33:19 UTC+01:00">
+13:33
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279542" onclick="return GoToMessage(279542)">this message</a>
+       </div>
+
+       <div class="text">
+А кто он
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279544">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:33:23 UTC+01:00">
+13:33
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279540" onclick="return GoToMessage(279540)">this message</a>
+       </div>
+
+       <div class="text">
+Ну так
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279545">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:33:26 UTC+01:00">
+13:33
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Он же пилотную получает
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279546">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:33:26 UTC+01:00">
+13:33
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+Больше инфы про него
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279547">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:33:36 UTC+01:00">
+13:33
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279546" onclick="return GoToMessage(279546)">this message</a>
+       </div>
+
+       <div class="text">
+Больше доверия к тебе
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279548">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:33:36 UTC+01:00">
+13:33
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279546" onclick="return GoToMessage(279546)">this message</a>
+       </div>
+
+       <div class="text">
+А ну в этом плане
+       </div>
+
+       <span class="reactions">
+
+        <span class="reaction">
+
+         <span class="emoji">
+❤
+         </span>
+
+         <span class="userpics">
+
+          <div class="userpic userpic2" style="width: 20px; height: 20px">
+
+           <div class="initials" style="line-height: 20px" title="Alex">
+A
+           </div>
+
+          </div>
+
+         </span>
+
+        </span>
+
+       </span>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279549">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:33:43 UTC+01:00">
+13:33
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279543" onclick="return GoToMessage(279543)">this message</a>
+       </div>
+
+       <div class="text">
+Айтишник
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279550">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:33:45 UTC+01:00">
+13:33
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Ну хорошо что ты ещё хочешь знать
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279551">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:33:55 UTC+01:00">
+13:33
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279545" onclick="return GoToMessage(279545)">this message</a>
+       </div>
+
+       <div class="text">
+Но не физик
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279554">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:34:08 UTC+01:00">
+13:34
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279550" onclick="return GoToMessage(279550)">this message</a>
+       </div>
+
+       <div class="text">
+Я? Ничего
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279555">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:34:10 UTC+01:00">
+13:34
+       </div>
+
+       <div class="text">
+Я все про него знаю
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279558">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:34:20 UTC+01:00">
+13:34
+       </div>
+
+       <div class="text">
+Надо чтобы про него знала сама нигяр
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279559">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:34:27 UTC+01:00">
+13:34
+       </div>
+
+       <div class="text">
+А не про ту маску которую он показывает
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279560">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:34:54 UTC+01:00">
+13:34
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279555" onclick="return GoToMessage(279555)">this message</a>
+       </div>
+
+       <div class="text">
+Поверь, я могу быть тебе очень полезен, я его знаю уже годы
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279561">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:35:09 UTC+01:00">
+13:35
+       </div>
+
+       <div class="text">
+Ты мне инфу про него а я тебе ещё больше
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279562">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:36:32 UTC+01:00">
+13:36
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279560" onclick="return GoToMessage(279560)">this message</a>
+       </div>
+
+       <div class="text">
+Я знаю
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279563">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:36:49 UTC+01:00">
+13:36
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279561" onclick="return GoToMessage(279561)">this message</a>
+       </div>
+
+       <div class="text">
+Ну вот я и говорю тебе мурад
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279564">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:39:28 UTC+01:00">
+13:39
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279563" onclick="return GoToMessage(279563)">this message</a>
+       </div>
+
+       <div class="text">
+Так стопэ
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279565">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:39:32 UTC+01:00">
+13:39
+       </div>
+
+       <div class="text">
+А мое имя откуда
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279566">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:41:13 UTC+01:00">
+13:41
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+Я знаю многое хихи
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279567">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:41:35 UTC+01:00">
+13:41
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Это я уже понял, а про меня откуда
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279568">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:41:56 UTC+01:00">
+13:41
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279567" onclick="return GoToMessage(279567)">this message</a>
+       </div>
+
+       <div class="text">
+Я знаю и про тебя
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279569">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:42:00 UTC+01:00">
+13:42
+       </div>
+
+       <div class="text">
+И про олега
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279570">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:42:04 UTC+01:00">
+13:42
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279569" onclick="return GoToMessage(279569)">this message</a>
+       </div>
+
+       <div class="text">
+Например
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279571">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:42:15 UTC+01:00">
+13:42
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279569" onclick="return GoToMessage(279569)">this message</a>
+       </div>
+
+       <div class="text">
+Ну нихуя себе
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279572">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:42:32 UTC+01:00">
+13:42
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+Он же общался с разными девочками
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279573">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:42:46 UTC+01:00">
+13:42
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+А к чему это
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279574">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:42:53 UTC+01:00">
+13:42
+       </div>
+
+       <div class="text">
+Эти девочки знают меня с Олегом?
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279575">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:42:58 UTC+01:00">
+13:42
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279573" onclick="return GoToMessage(279573)">this message</a>
+       </div>
+
+       <div class="text">
+К тому что он рассказывал этим девочкам про вас тоже
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279576">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:43:02 UTC+01:00">
+13:43
+       </div>
+
+       <div class="text">
+Что вы его друзья
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279577">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:43:22 UTC+01:00">
+13:43
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Блять что
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279578">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:43:24 UTC+01:00">
+13:43
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+H4g все дела
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279579">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:43:26 UTC+01:00">
+13:43
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Зачем
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279580">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:43:31 UTC+01:00">
+13:43
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279578" onclick="return GoToMessage(279578)">this message</a>
+       </div>
+
+       <div class="text">
+ЧЕГО БЛЯТЬ
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279581">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:43:38 UTC+01:00">
+13:43
+       </div>
+
+       <div class="text">
+ОН ЧЕ АХУЕЛ
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279582">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:44:04 UTC+01:00">
+13:44
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279580" onclick="return GoToMessage(279580)">this message</a>
+       </div>
+
+       <div class="text">
+Коля любит свои сильные стороны показывать
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279583">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:44:26 UTC+01:00">
+13:44
+       </div>
+
+       <div class="text">
+А h4g это его достижение
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279584">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:44:46 UTC+01:00">
+13:44
+       </div>
+
+       <div class="text">
+Ну и ваше само собой
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279587">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:45:13 UTC+01:00">
+13:45
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Блять ну это же абсурд
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279588">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:45:20 UTC+01:00">
+13:45
+       </div>
+
+       <div class="text">
+Блять
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279589">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:45:21 UTC+01:00">
+13:45
+       </div>
+
+       <div class="text">
+Блять что
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279590">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:45:31 UTC+01:00">
+13:45
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+Что?
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279591">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:45:40 UTC+01:00">
+13:45
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Это как он долго с ними общался чтобы рассказывать про Хак4Гуд
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279592">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:45:48 UTC+01:00">
+13:45
+       </div>
+
+       <div class="text">
+У него что две семьи чтоли
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279593">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:45:55 UTC+01:00">
+13:45
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279591" onclick="return GoToMessage(279591)">this message</a>
+       </div>
+
+       <div class="text">
+Немного
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279594">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:46:00 UTC+01:00">
+13:46
+       </div>
+
+       <div class="text">
+Сторисы есть же в профиле
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279595">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:46:04 UTC+01:00">
+13:46
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+А сколько их было
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279596">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:46:11 UTC+01:00">
+13:46
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279594" onclick="return GoToMessage(279594)">this message</a>
+       </div>
+
+       <div class="text">
+А
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279597">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:46:16 UTC+01:00">
+13:46
+       </div>
+
+       <div class="text">
+А ну тоже есть
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279598">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:46:36 UTC+01:00">
+13:46
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279595" onclick="return GoToMessage(279595)">this message</a>
+       </div>
+
+       <div class="text">
+4
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279600">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:46:50 UTC+01:00">
+13:46
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279598" onclick="return GoToMessage(279598)">this message</a>
+       </div>
+
+       <div class="text">
+И ты всех их знаешь
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279601">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:47:08 UTC+01:00">
+13:47
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279600" onclick="return GoToMessage(279600)">this message</a>
+       </div>
+
+       <div class="text">
+2 лично 2 косвенно
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279602">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:47:13 UTC+01:00">
+13:47
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Точнее блять откуда ты знаешь что только четыре раз уж на то пошло
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279603">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:47:35 UTC+01:00">
+13:47
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279602" onclick="return GoToMessage(279602)">this message</a>
+       </div>
+
+       <div class="text">
+Ну может больше
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279604">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:47:42 UTC+01:00">
+13:47
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279601" onclick="return GoToMessage(279601)">this message</a>
+       </div>
+
+       <div class="text">
+Ты уверен? Блять у меня тут мир рушится я как будто друга своего не знал всю жизнь
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279605">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:47:52 UTC+01:00">
+13:47
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279604" onclick="return GoToMessage(279604)">this message</a>
+       </div>
+
+       <div class="text">
+Уверен
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279606">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:47:54 UTC+01:00">
+13:47
+       </div>
+
+       <div class="text">
+На все 100%
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279607">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:48:22 UTC+01:00">
+13:48
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279604" onclick="return GoToMessage(279604)">this message</a>
+       </div>
+
+       <div class="text">
+Ну видишь как бывает
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279608">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:48:28 UTC+01:00">
+13:48
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Поставь себя на мое место, почему я должен тебе верить сейчас? Не то чтобы ты не убедительно звучишь но сука
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279609">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:48:31 UTC+01:00">
+13:48
+       </div>
+
+       <div class="text">
+Это мой друг
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279610">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:48:36 UTC+01:00">
+13:48
+       </div>
+
+       <div class="text">
+Был или не знаю
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279611">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:48:38 UTC+01:00">
+13:48
+       </div>
+
+       <div class="text">
+Но блять
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279612">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:48:44 UTC+01:00">
+13:48
+       </div>
+
+       <div class="text">
+Блять пиздец
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279613">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:49:06 UTC+01:00">
+13:49
+       </div>
+
+       <div class="text">
+Есть какие-то еще пруфы? я должен быть уверен в этом я ему ебало снесу лично своими руками
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279614">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:49:12 UTC+01:00">
+13:49
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279608" onclick="return GoToMessage(279608)">this message</a>
+       </div>
+
+       <div class="text">
+Я не прошу верить
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279615">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:49:18 UTC+01:00">
+13:49
+       </div>
+
+       <div class="text">
+Я не призываю верить
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279616">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:49:42 UTC+01:00">
+13:49
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279613" onclick="return GoToMessage(279613)">this message</a>
+       </div>
+
+       <div class="text">
+Как я могу достать пруфы если он чистил чаты
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279617">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:49:54 UTC+01:00">
+13:49
+       </div>
+
+       <div class="text">
+Никто не будет сохранять сообщения для целей отместки
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279618">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:50:00 UTC+01:00">
+13:50
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279616" onclick="return GoToMessage(279616)">this message</a>
+       </div>
+
+       <div class="text">
+А если нет пруфов то как ты можешь быть уверен
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279619">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:50:12 UTC+01:00">
+13:50
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279618" onclick="return GoToMessage(279618)">this message</a>
+       </div>
+
+       <div class="text">
+Люди сами мне говорили про него
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279620">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:50:19 UTC+01:00">
+13:50
+       </div>
+
+       <div class="text">
+А не я говорил про него
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279621">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:50:27 UTC+01:00">
+13:50
+       </div>
+
+       <div class="text">
+Допустим я общаюсь с какой то девочкой
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279622">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:50:36 UTC+01:00">
+13:50
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279621" onclick="return GoToMessage(279621)">this message</a>
+       </div>
+
+       <div class="text">
+одной из них?
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279623">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:50:43 UTC+01:00">
+13:50
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+И она такая с таким классным украинцем познакомилась
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279624">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:50:48 UTC+01:00">
+13:50
+       </div>
+
+       <div class="text">
+Я говорю кто там
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279625">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:50:53 UTC+01:00">
+13:50
+       </div>
+
+       <div class="text">
+И она сказала какой то коля
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279626">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:50:58 UTC+01:00">
+13:50
+       </div>
+
+       <div class="text">
+В летной учится
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279627">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:51:02 UTC+01:00">
+13:51
+       </div>
+
+       <div class="text">
+Потом другая
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279628">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:51:08 UTC+01:00">
+13:51
+       </div>
+
+       <div class="text">
+Точно такой же сценарий
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279629">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:51:13 UTC+01:00">
+13:51
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279622" onclick="return GoToMessage(279622)">this message</a>
+       </div>
+
+       <div class="text">
+Со всеми
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279630">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:51:20 UTC+01:00">
+13:51
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279623" onclick="return GoToMessage(279623)">this message</a>
+       </div>
+
+       <div class="text">
+А ты уверен что они просто не одногрупники там или что-то в этом духе а у них прям общение
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279631">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:51:29 UTC+01:00">
+13:51
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279628" onclick="return GoToMessage(279628)">this message</a>
+       </div>
+
+       <div class="text">
+Охуеть
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279632">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:51:32 UTC+01:00">
+13:51
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279630" onclick="return GoToMessage(279630)">this message</a>
+       </div>
+
+       <div class="text">
+Нет не одногруппники
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279633">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:51:37 UTC+01:00">
+13:51
+       </div>
+
+       <div class="text">
+Некоторым по 23-25 лет
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279635">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:51:46 UTC+01:00">
+13:51
+       </div>
+
+       <div class="text">
+Обычное общение
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279636">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:51:49 UTC+01:00">
+13:51
+       </div>
+
+       <div class="text">
+Даже иногда со звонками
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279637">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:51:51 UTC+01:00">
+13:51
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279633" onclick="return GoToMessage(279633)">this message</a>
+       </div>
+
+       <div class="text">
+Хуя себе он даёт
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279638">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:51:52 UTC+01:00">
+13:51
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+С кружочками
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279639">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:51:53 UTC+01:00">
+13:51
+       </div>
+
+       <div class="text">
+С гс
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279640">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:52:05 UTC+01:00">
+13:52
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279636" onclick="return GoToMessage(279636)">this message</a>
+       </div>
+
+       <div class="text">
+Ебать что
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279641">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:52:23 UTC+01:00">
+13:52
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279640" onclick="return GoToMessage(279640)">this message</a>
+       </div>
+
+       <div class="text">
+Ну вот видишь
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279642">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:52:24 UTC+01:00">
+13:52
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Да блять ну нет это коля какое общение это звучит как ебанный бред
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279643">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:52:28 UTC+01:00">
+13:52
+       </div>
+
+       <div class="text">
+Но почемуто убедительный
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279644">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:52:30 UTC+01:00">
+13:52
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+Двойную жизнь ведёт
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279645">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:52:47 UTC+01:00">
+13:52
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Так ладно
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279646">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:52:48 UTC+01:00">
+13:52
+       </div>
+
+       <div class="text">
+Пиздец
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279647">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:53:06 UTC+01:00">
+13:53
+       </div>
+
+       <div class="text">
+Я в магаз схожу, мне надо это обдумать
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix joined" id="message279648">
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:53:11 UTC+01:00">
+13:53
+       </div>
+
+       <div class="text">
+Я тебе отпишусь
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279649">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:53:15 UTC+01:00">
+13:53
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="text">
+Давай
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279650">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:53:17 UTC+01:00">
+13:53
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="text">
+Но это пиздец какой-то
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279651">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+A
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:53:22 UTC+01:00">
+13:53
+       </div>
+
+       <div class="from_name">
+Alex 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279650" onclick="return GoToMessage(279650)">this message</a>
+       </div>
+
+       <div class="text">
+Мгм
+       </div>
+
+      </div>
+
+     </div>
+
+     <div class="message default clearfix" id="message279652">
+
+      <div class="pull_left userpic_wrap">
+
+       <div class="userpic userpic2" style="width: 42px; height: 42px">
+
+        <div class="initials" style="line-height: 42px">
+T
+        </div>
+
+       </div>
+
+      </div>
+
+      <div class="body">
+
+       <div class="pull_right date details" title="22.11.2025 13:53:23 UTC+01:00">
+13:53
+       </div>
+
+       <div class="from_name">
+TheBlatherkite 
+       </div>
+
+       <div class="reply_to details">
+In reply to <a href="#go_to_message279649" onclick="return GoToMessage(279649)">this message</a>
+       </div>
+
+       <div class="text">
+Спасибо
+       </div>
+
+       <span class="reactions">
+
+        <span class="reaction">
+
+         <span class="emoji">
+❤
+         </span>
+
+         <span class="userpics">
+
+          <div class="userpic userpic2" style="width: 20px; height: 20px">
+
+           <div class="initials" style="line-height: 20px" title="Alex">
+A
+           </div>
+
+          </div>
+
+         </span>
+
+        </span>
+
+       </span>
+
+      </div>
+
+     </div>
+
     </div>
-  );
-}
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<MashallahLocator />);
-    </script>
-</body>
+   </div>
+
+  </div>
+
+ </body>
+
 </html>
-
