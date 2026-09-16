@@ -73,6 +73,7 @@ textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   padding: 20px 48px;
   background: #000000;
   border-bottom: 1px solid var(--line);
@@ -80,10 +81,9 @@ textarea {
 
 .bar-name {
   font-family: Montserrat, sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .bar-nav {
@@ -111,24 +111,52 @@ textarea {
 }
 
 .hero {
-  padding: 120px 0 140px;
-  max-width: 18em;
+  position: relative;
+  isolation: isolate;
+  min-height: calc(100svh - 64px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px 96px;
+  overflow: hidden;
 }
 
-h1 {
-  font-family: Montserrat, sans-serif;
-  font-size: clamp(40px, 7.2vw, 92px);
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 0.95;
+.hero::before {
+  content: none;
+}
+
+.hero-kicker {
+  margin-bottom: 28px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
 }
 
+.hero h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Montserrat, sans-serif;
+  font-size: clamp(40px, 8.4vw, 104px);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.hero h1 span {
+  display: block;
+}
+
 .lede {
-  margin: 28px 0 40px;
+  margin: 28px auto 36px;
   max-width: 28em;
   color: var(--muted);
-  font-size: clamp(16px, 1.6vw, 19px);
+  font-size: clamp(15px, 1.5vw, 18px);
   line-height: 1.55;
 }
 
@@ -462,6 +490,15 @@ h1 {
   color: var(--muted);
 }
 
+.foot-name {
+  color: var(--fg);
+  font-family: Montserrat, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
+}
+
 .foot-nav,
 .links {
   display: flex;
@@ -530,7 +567,21 @@ h1 {
 
 @media (max-width: 760px) {
   .bar {
-    padding: 16px 20px;
+    flex-wrap: wrap;
+    padding: 14px 16px 12px;
+    gap: 10px;
+  }
+
+  .bar-name {
+    font-size: 13px;
+  }
+
+  .bar-nav {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 20px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
   }
 
   .page {
@@ -538,8 +589,8 @@ h1 {
   }
 
   .hero {
-    padding: 72px 0 88px;
-    max-width: none;
+    min-height: 0;
+    padding: 88px 0 96px;
   }
 
   .cards {

@@ -3,10 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Room28 — Digital Craft</title>
+    <title>Murad Baghirli — Designer, Madrid</title>
+    <meta name="author" content="Murad Baghirli" />
     <meta
       name="description"
-      content="Room28 is an independent design studio in Madrid. Identity, product, and campaign work."
+      content="Personal portfolio of Murad Baghirli, a designer in Madrid. Identity, product, and campaign work."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,7 +22,7 @@
     <div class="grain" aria-hidden="true"></div>
 
     <header class="bar">
-      <a class="bar-name" href="#">Room28</a>
+      <a class="bar-name" href="#">Murad Baghirli</a>
       <nav class="bar-nav" aria-label="Primary">
         <a href="#work">Projects</a>
         <a href="#about">About</a>
@@ -29,16 +30,17 @@
       </nav>
     </header>
 
-    <div class="page">
-      <section class="hero">
-        <h1>Digital craft for visionary brands.</h1>
-        <p class="lede">
-          Identity, product, and campaign work from an independent studio in
-          Madrid.
-        </p>
-        <a class="btn" href="#work">Explore work</a>
-      </section>
+    <section class="hero">
+      <p class="hero-kicker">Designer · Madrid</p>
+      <h1>
+        <span>I design</span>
+        <span>things.</span>
+      </h1>
+      <p class="lede">Identity, product, and campaign work.</p>
+      <a class="btn" href="#work">See the work</a>
+    </section>
 
+    <div class="page">
       <section class="selected" id="work">
         <div class="section-head">
           <h2>Selected projects</h2>
@@ -369,13 +371,12 @@
         <div class="about-copy">
           <h2>About</h2>
           <p>
-            Room28 is an independent design practice in Madrid. We shape
-            identity systems, product interfaces, and campaign work for teams
-            who care how things look — and how they work.
+            I’m Murad Baghirli, a designer based in Madrid. I make identity
+            systems, product interfaces, and campaign work.
           </p>
           <p>
-            The studio takes its name from a room number: a closed door, a
-            clear brief, and the craft that happens inside.
+            This site is my personal portfolio — a selection of projects I
+            designed and built.
           </p>
         </div>
         <div class="about-art" aria-hidden="true">
@@ -392,16 +393,16 @@
             <rect x="192" y="252" width="112" height="108" stroke="#ECE5D3" stroke-opacity="0.4" />
             <rect x="320" y="252" width="112" height="108" fill="#131E37" />
             <text
-              x="248"
+              x="216"
               y="122"
               fill="#ECE5D3"
               fill-opacity="0.92"
               font-family="Montserrat, sans-serif"
-              font-size="72"
+              font-size="56"
               font-weight="700"
-              letter-spacing="4"
+              letter-spacing="6"
             >
-              28
+              MB
             </text>
           </svg>
         </div>
@@ -410,7 +411,7 @@
       <section class="contact" id="contact">
         <div class="contact-intro">
           <h2>Contact</h2>
-          <p>New projects, collaborations, or a note — send it through.</p>
+          <p>If you want to work together, write to Murad directly.</p>
         </div>
         <form class="form" id="contact-form">
           <label>
@@ -430,11 +431,14 @@
       </section>
 
       <footer class="foot">
-        <nav class="foot-nav" aria-label="Footer">
-          <a href="#work">Projects</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-        </nav>
+        <div>
+          <p class="foot-name">Murad Baghirli</p>
+          <nav class="foot-nav" aria-label="Footer">
+            <a href="#work">Projects</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </nav>
+        </div>
         <p class="links">
           <a href="mailto:muradbagirli2007@gmail.com">Email</a>
           <a href="https://www.linkedin.com/in/murad-baghirli-35454a1b4" target="_blank" rel="noreferrer">LinkedIn</a>
@@ -487,7 +491,7 @@
         const name = form.name.value.trim();
         const email = form.email.value.trim();
         const message = form.message.value.trim();
-        const subject = encodeURIComponent(`Room28 — ${name}`);
+        const subject = encodeURIComponent(`Murad Baghirli — ${name}`);
         const body = encodeURIComponent(`${message}\n\n— ${name}\n${email}`);
         window.location.href = `mailto:muradbagirli2007@gmail.com?subject=${subject}&body=${body}`;
       });
