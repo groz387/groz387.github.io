@@ -10,7 +10,7 @@
       content="Personal portfolio of Murad Baghirli, a designer in Madrid. Identity, product, and campaign work."
     />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="styles.css?v=4" />
+    <link rel="stylesheet" href="styles.css?v=5" />
   </head>
   <body>
     <div class="desktop">
@@ -652,13 +652,27 @@
       const freehand = new Set(["Pencil", "Brush", "Eraser", "Airbrush"]);
       const shapes = new Set(["Line", "Rectangle", "Rounded Rectangle", "Ellipse", "Curve"]);
 
-      const readyBoard = () => {
-        const w = ink.naturalWidth || 1024;
-        const h = ink.naturalHeight || 738;
+      const fitPad = () => {
+        const scroller = document.getElementById("canvas");
+        const sc = scroller.getBoundingClientRect();
+        const host = pad.parentElement.getBoundingClientRect();
+        const width = Math.max(280, Math.floor(sc.right - host.left - 16));
+        if (pad.style.width !== width + "px") pad.style.width = width + "px";
+        const rect = board.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        const w = Math.max(1, Math.round(rect.width * dpr));
+        const h = Math.max(1, Math.round(rect.height * dpr));
         if (board.width === w && board.height === h) return;
+        const prev = document.createElement("canvas");
+        prev.width = board.width;
+        prev.height = board.height;
+        if (board.width && board.height) prev.getContext("2d").drawImage(board, 0, 0);
         board.width = w;
         board.height = h;
+        if (prev.width && prev.height) g.drawImage(prev, 0, 0, w, h);
       };
+
+      const readyBoard = () => fitPad();
 
       const clearSketch = () => {
         readyBoard();
@@ -980,8 +994,10 @@
         snap = null;
       });
 
-      if (ink.complete) readyBoard();
-      ink.addEventListener("load", readyBoard);
+      if (ink.complete) fitPad();
+      ink.addEventListener("load", fitPad);
+      window.addEventListener("resize", fitPad);
+      if (window.ResizeObserver) new ResizeObserver(fitPad).observe(document.getElementById("canvas"));
 
       const form = document.getElementById("contact-form");
       form.addEventListener("submit", (e) => {

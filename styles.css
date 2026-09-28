@@ -461,7 +461,8 @@ a {
 
 .pad {
   position: relative;
-  width: min(640px, 100%);
+  width: 100%;
+  min-height: 460px;
   touch-action: none;
   cursor: crosshair;
   user-select: none;
@@ -493,7 +494,7 @@ a {
 }
 
 .ink {
-  width: 100%;
+  width: min(640px, 100%);
   height: auto;
   background: transparent;
   border: 0;
