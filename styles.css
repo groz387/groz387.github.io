@@ -1,11 +1,14 @@
 :root {
-  --bg: #000000;
-  --navy: #131e37;
-  --cream: #ece5d3;
-  --fg: #ffffff;
-  --muted: #b8b3a8;
-  --line: rgba(236, 229, 211, 0.12);
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --bg: #ffffff;
+  --ink: #000000;
+  --chrome: #c0c0c0;
+  --navy: #000080;
+  --muted: #404040;
+  --red: #ff0000;
+  --blue: #0000ff;
+  --yellow: #ffff00;
+  --line: #000000;
+  --font: "Pixelify Sans", "MS Sans Serif", Tahoma, sans-serif;
 }
 
 * {
@@ -21,12 +24,11 @@ html {
 
 body {
   background: var(--bg);
-  color: var(--fg);
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
-  color-scheme: dark;
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 18px;
+  line-height: 1.45;
+  color-scheme: light;
 }
 
 img {
@@ -48,22 +50,13 @@ textarea {
 }
 
 ::selection {
-  background: var(--navy);
-  color: var(--fg);
+  background: var(--blue);
+  color: #fff;
 }
 
 :focus-visible {
-  outline: 2px solid var(--cream);
+  outline: 3px solid var(--blue);
   outline-offset: 3px;
-}
-
-.grain {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .bar {
@@ -74,34 +67,78 @@ textarea {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  padding: 20px 48px;
-  background: #000000;
-  border-bottom: 1px solid var(--line);
+  padding: 12px 48px 34px;
+  background: var(--navy);
+  color: #fff;
+  border-bottom: 3px solid #000;
+}
+
+.bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 26px;
+  background-color: var(--chrome);
+  background-image: linear-gradient(
+    90deg,
+    #000 0 7.14%,
+    #808080 7.14% 14.28%,
+    #800000 14.28% 21.42%,
+    #808000 21.42% 28.56%,
+    #008000 28.56% 35.7%,
+    #008080 35.7% 42.84%,
+    #000080 42.84% 49.98%,
+    #800080 49.98% 57.12%,
+    #ff0000 57.12% 64.26%,
+    #ffff00 64.26% 71.4%,
+    #00ff00 71.4% 78.54%,
+    #00ffff 78.54% 85.68%,
+    #0000ff 85.68% 92.82%,
+    #ff00ff 92.82% 100%
+  );
+  background-repeat: no-repeat;
+  background-size: calc(100% - 20px) 14px;
+  background-position: 10px center;
+  border-top: 2px solid #808080;
+  box-shadow: inset 0 1px 0 #fff;
+  pointer-events: none;
 }
 
 .bar-name {
-  font-family: Montserrat, sans-serif;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: 0.04em;
 }
 
 .bar-nav {
   display: flex;
-  gap: 28px;
-  color: var(--muted);
-  font-size: 12px;
+  gap: 8px;
+  font-size: 16px;
   font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 }
 
 .bar-nav a {
-  transition: color 0.25s var(--ease);
+  padding: 2px 10px;
+  background: var(--chrome);
+  color: #000;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
 }
 
 .bar-nav a:hover {
-  color: var(--fg);
+  background: var(--yellow);
+}
+
+.bar-nav a:active {
+  border-top: 2px solid #000;
+  border-left: 2px solid #000;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  box-shadow: none;
 }
 
 .page {
@@ -112,73 +149,63 @@ textarea {
 
 .hero {
   position: relative;
-  isolation: isolate;
-  min-height: calc(100svh - 64px);
+  min-height: calc(100svh - 92px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 80px 24px 96px;
+  padding: 72px 24px 80px;
   overflow: hidden;
 }
 
-.hero::before {
-  content: none;
-}
-
 .hero-kicker {
-  margin-bottom: 28px;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-}
-
-.hero h1 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: Montserrat, sans-serif;
-  font-size: clamp(40px, 8.4vw, 104px);
+  margin-bottom: 22px;
+  color: var(--blue);
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: -0.045em;
-  line-height: 0.9;
-  text-transform: uppercase;
 }
 
-.hero h1 span {
-  display: block;
+.hero-drawing {
+  width: min(880px, 100%);
+  margin-bottom: 28px;
+  padding: 10px;
+  background: #fff;
+  border: 2px dashed #808080;
 }
 
-.lede {
-  margin: 28px auto 36px;
-  max-width: 28em;
-  color: var(--muted);
-  font-size: clamp(15px, 1.5vw, 18px);
-  line-height: 1.55;
+.hero-drawing img {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  border: 3px solid #000;
+  box-shadow: 6px 6px 0 #000;
 }
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--navy);
-  color: var(--fg);
-  border: 0;
-  padding: 16px 28px;
-  font-family: Montserrat, sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  background: var(--chrome);
+  color: #000;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf, 4px 4px 0 #000;
+  padding: 12px 22px;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.3s var(--ease), transform 0.3s var(--ease);
 }
 
 .btn:hover {
-  background: #1b2c52;
+  background: var(--yellow);
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf, 2px 2px 0 #000;
 }
 
 .section-head {
@@ -188,25 +215,51 @@ textarea {
   gap: 24px;
   margin-bottom: 36px;
   padding-bottom: 18px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 4px solid #000;
 }
 
 .section-head h2,
 .work-head h2,
 .about h2,
 .contact h2 {
-  font-family: Montserrat, sans-serif;
-  font-size: clamp(22px, 2.4vw, 28px);
+  font-size: clamp(24px, 2.4vw, 32px);
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+}
+
+.section-head h2::before,
+.work-head h2::before,
+.about h2::before,
+.contact h2::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 10px;
+  background: var(--red);
+  border: 2px solid #000;
+  vertical-align: -1px;
+}
+
+.about h2::before {
+  background: var(--blue);
+}
+
+.contact h2::before {
+  background: var(--yellow);
+}
+
+.work:nth-child(3n + 2) .work-head h2::before {
+  background: var(--blue);
+}
+
+.work:nth-child(3n) .work-head h2::before {
+  background: var(--yellow);
 }
 
 .hint {
-  color: var(--muted);
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  color: var(--blue);
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .cards {
@@ -217,20 +270,22 @@ textarea {
 
 .card {
   display: block;
+  color: #000;
 }
 
 .card-media {
   position: relative;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: #000000;
+  background: #fff;
+  border: 3px solid #000;
+  box-shadow: 5px 5px 0 #000;
 }
 
 .card-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.7s var(--ease);
 }
 
 .card-media.contain img {
@@ -238,8 +293,21 @@ textarea {
   padding: 16%;
 }
 
+.card-media.heimdall {
+  background: #000;
+}
+
+.card-media.heimdall img {
+  object-fit: contain;
+  padding: 0;
+}
+
 .card-media.cream {
-  background: var(--cream);
+  background: #fff;
+}
+
+.card-media.ink {
+  background: #000;
 }
 
 .card-media.ink img {
@@ -247,19 +315,12 @@ textarea {
 }
 
 .card-veil {
-  position: absolute;
-  inset: 0;
-  background: var(--navy);
-  opacity: 0;
-  transition: opacity 0.45s var(--ease);
+  display: none;
 }
 
-.card:hover .card-veil {
-  opacity: 0.78;
-}
-
-.card:hover .card-media img {
-  transform: scale(1.06);
+.card:hover .card-media {
+  outline: 2px dashed var(--blue);
+  outline-offset: 5px;
 }
 
 .card-meta {
@@ -267,31 +328,27 @@ textarea {
   justify-content: space-between;
   align-items: baseline;
   gap: 12px;
-  padding-top: 14px;
+  padding-top: 12px;
 }
 
 .card-meta h3 {
-  font-family: Montserrat, sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .card-meta p {
-  color: var(--muted);
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  color: var(--blue);
+  font-size: 14px;
 }
 
 .selected {
   padding-bottom: 72px;
-  scroll-margin-top: 80px;
+  scroll-margin-top: 110px;
 }
 
 .work {
   padding: 112px 0 8px;
-  scroll-margin-top: 80px;
+  scroll-margin-top: 110px;
 }
 
 .work-head {
@@ -300,10 +357,9 @@ textarea {
 }
 
 .work-head .k {
-  color: var(--muted);
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  color: var(--red);
+  font-size: 16px;
+  font-weight: 700;
   margin-bottom: 12px;
 }
 
@@ -314,20 +370,16 @@ textarea {
 }
 
 .shot {
-  margin-bottom: 16px;
+  margin-bottom: 22px;
   overflow: hidden;
-  background: #000000;
+  background: #fff;
+  border: 3px solid #000;
+  box-shadow: 6px 6px 0 #000;
   cursor: zoom-in;
 }
 
 .shot img {
   width: 100%;
-  transition: transform 0.6s var(--ease), opacity 0.35s var(--ease);
-}
-
-.shot:hover img {
-  transform: scale(1.015);
-  opacity: 0.96;
 }
 
 .shot.panel {
@@ -350,15 +402,15 @@ textarea {
 }
 
 .shot.light {
-  background: var(--cream);
+  background: #fff;
 }
 
 .shot.dark {
-  background: #000000;
+  background: #000;
 }
 
 .shot.ink {
-  background: #000000;
+  background: #000;
 }
 
 .shot.ink img {
@@ -368,8 +420,8 @@ textarea {
 .grid-2,
 .grid-3 {
   display: grid;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: 22px;
+  margin-bottom: 22px;
 }
 
 .grid-2 {
@@ -400,8 +452,8 @@ textarea {
   align-items: center;
   margin-top: 140px;
   padding: 88px 0;
-  border-top: 1px solid var(--line);
-  scroll-margin-top: 80px;
+  border-top: 4px solid #000;
+  scroll-margin-top: 110px;
 }
 
 .about-copy p {
@@ -411,8 +463,9 @@ textarea {
 }
 
 .about-art {
-  background: #000000;
-  border: 1px solid var(--line);
+  background: #fff;
+  border: 3px solid #000;
+  box-shadow: 6px 6px 0 #000;
 }
 
 .about-art svg {
@@ -427,8 +480,8 @@ textarea {
   gap: 80px;
   align-items: start;
   padding: 88px 0 24px;
-  border-top: 1px solid var(--line);
-  scroll-margin-top: 80px;
+  border-top: 4px solid #000;
+  scroll-margin-top: 110px;
 }
 
 .contact-intro p {
@@ -445,33 +498,31 @@ textarea {
 .form label {
   display: grid;
   gap: 8px;
-  color: var(--muted);
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .form input,
 .form textarea {
   width: 100%;
-  background: #000000;
-  border: 1px solid var(--line);
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: inset 3px 3px 0 #808080;
   border-radius: 0;
-  padding: 14px 16px;
-  color: var(--fg);
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 15px;
+  padding: 12px 14px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 400;
   resize: vertical;
-  transition: border-color 0.25s var(--ease);
 }
 
 .form input:hover,
 .form textarea:hover,
 .form input:focus,
 .form textarea:focus {
-  border-color: var(--navy);
-  outline: none;
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
 }
 
 .form .btn {
@@ -485,17 +536,33 @@ textarea {
   align-items: flex-end;
   gap: 32px;
   margin-top: 80px;
-  padding-top: 36px;
-  border-top: 1px solid var(--line);
+  padding-top: 28px;
+  border-top: 18px solid #000;
+  border-image: linear-gradient(
+      90deg,
+      #000 0 7.14%,
+      #808080 7.14% 14.28%,
+      #800000 14.28% 21.42%,
+      #808000 21.42% 28.56%,
+      #008000 28.56% 35.7%,
+      #008080 35.7% 42.84%,
+      #000080 42.84% 49.98%,
+      #800080 49.98% 57.12%,
+      #ff0000 57.12% 64.26%,
+      #ffff00 64.26% 71.4%,
+      #00ff00 71.4% 78.54%,
+      #00ffff 78.54% 85.68%,
+      #0000ff 85.68% 92.82%,
+      #ff00ff 92.82% 100%
+    )
+    1;
   color: var(--muted);
 }
 
 .foot-name {
-  color: var(--fg);
-  font-family: Montserrat, sans-serif;
-  font-size: 14px;
+  color: #000;
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: 0.04em;
   margin-bottom: 14px;
 }
 
@@ -503,23 +570,22 @@ textarea {
 .links {
   display: flex;
   flex-wrap: wrap;
-  gap: 22px;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  gap: 18px;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .foot-nav a,
 .links a {
-  border-bottom: 1px solid transparent;
-  padding-bottom: 2px;
-  transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .foot-nav a:hover,
 .links a:hover {
-  color: var(--fg);
-  border-bottom-color: var(--navy);
+  color: #000;
+  background: var(--yellow);
 }
 
 .lite {
@@ -529,7 +595,7 @@ textarea {
   display: grid;
   place-items: center;
   padding: 32px;
-  background: rgba(0, 0, 0, 0.94);
+  background: rgba(0, 0, 128, 0.86);
   cursor: zoom-out;
 }
 
@@ -543,14 +609,20 @@ textarea {
   width: auto;
   height: auto;
   object-fit: contain;
+  background: #fff;
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0 #000;
 }
 
 .lite p {
   position: absolute;
   bottom: 18px;
-  color: var(--muted);
-  font-size: 12px;
-  letter-spacing: 0.06em;
+  color: #000;
+  background: var(--chrome);
+  border: 2px solid #000;
+  padding: 4px 10px;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 @media (max-width: 1100px) {
@@ -568,20 +640,19 @@ textarea {
 @media (max-width: 760px) {
   .bar {
     flex-wrap: wrap;
-    padding: 14px 16px 12px;
+    padding: 10px 16px 34px;
     gap: 10px;
   }
 
   .bar-name {
-    font-size: 13px;
+    font-size: 16px;
   }
 
   .bar-nav {
     width: 100%;
     justify-content: flex-start;
-    gap: 20px;
-    font-size: 11px;
-    letter-spacing: 0.12em;
+    gap: 8px;
+    font-size: 14px;
   }
 
   .page {
@@ -590,7 +661,7 @@ textarea {
 
   .hero {
     min-height: 0;
-    padding: 88px 0 96px;
+    padding: 56px 0 72px;
   }
 
   .cards {
@@ -633,24 +704,7 @@ textarea {
     scroll-behavior: auto;
   }
 
-  .shot img,
-  .card-media img,
-  .card-veil,
-  .btn,
-  .bar-nav a,
-  .foot-nav a,
-  .links a,
-  .form input,
-  .form textarea {
-    transition: none;
-  }
-
-  .shot:hover img,
-  .card:hover .card-media img {
+  .btn:active {
     transform: none;
-  }
-
-  .card:hover .card-veil {
-    opacity: 0.78;
   }
 }
