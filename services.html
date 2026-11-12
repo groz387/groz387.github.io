@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Design Services — Murad Baghirli</title>
+    <meta name="author" content="Murad Baghirli" />
+    <meta
+      name="description"
+      content="Logos, brand identity, social media kits, menus, posters and presentations for small businesses. Madrid · remote. EN / ES / RU / AZ."
+    />
+    <link rel="canonical" href="https://www.room28th.com/services.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.room28th.com/services.html" />
+    <meta property="og:title" content="Design services — Murad Baghirli" />
+    <meta property="og:description" content="Logos, brand kits, menus, posters and presentations for small businesses. Quote within 24h." />
+    <meta property="og:image" content="https://www.room28th.com/img/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css?v=6" />
+    <style>
+      .lang { display: flex; gap: 2px; margin-left: auto; }
+      .lang button { padding: 2px 7px; background: transparent; border: 1px solid transparent; cursor: pointer; font-size: 12px; }
+      .lang button[aria-pressed="true"] { background: var(--navy); color: var(--white); }
+      .svc-hero h1 { font-size: 22px; font-weight: 700; line-height: 1.2; margin: 6px 0 8px; }
+      .svc-hero p { max-width: 44em; font-size: 14px; }
+      .svc-hero .langs { margin-top: 6px; color: var(--shadow); font-size: 12px; }
+      .ctas { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 4px; }
+      .ctas .btn { margin: 0; font-size: 13px; padding: 6px 16px; }
+      .ctas .btn.primary { font-weight: 700; }
+      .pk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .pk article { border: 1px solid var(--black); padding: 12px; background: var(--white); }
+      .pk h3 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+      .pk h3::before { content: "■ "; color: var(--navy); }
+      .steps { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; counter-reset: s; }
+      .steps li { counter-increment: s; border-top: 2px solid var(--black); padding-top: 6px; }
+      .steps li::before { content: counter(s) ". "; font-weight: 700; color: var(--navy); }
+      .note { margin-top: 14px; padding: 8px 10px; background: #ffffe1; border: 1px solid var(--black); max-width: 44em; }
+      .recent { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+      .recent a { display: block; border: 1px solid var(--black); aspect-ratio: 1; background: #000; overflow: hidden; }
+      .recent a.light { background: var(--white); }
+      .recent img { width: 100%; height: 100%; object-fit: contain; padding: 10%; }
+      .recent a.cover img { object-fit: cover; padding: 0; }
+      @media (max-width: 900px) { .pk, .steps, .recent { grid-template-columns: 1fr 1fr; } }
+      @media (max-width: 560px) { .pk, .steps { grid-template-columns: 1fr; } .svc-hero h1 { font-size: 19px; } }
+    </style>
+  </head>
+  <body>
+    <div class="desktop">
+      <div class="win">
+        <header class="titlebar">
+          <span class="title-icon" aria-hidden="true"></span>
+          <p class="title">services.txt - Notepad</p>
+          <div class="win-btns">
+            <a class="win-btn" href="index.html" aria-label="Close"><i class="glyph close"></i></a>
+          </div>
+        </header>
+
+        <nav class="menubar" aria-label="Primary">
+          <a href="index.html" data-t="nav_home">← Portfolio</a>
+          <a href="index.html#work" data-t="nav_work">Projects</a>
+          <a href="#contact" data-t="nav_contact">Contact</a>
+          <div class="lang" role="group" aria-label="Language">
+            <button type="button" data-lang="en">EN</button>
+            <button type="button" data-lang="es">ES</button>
+            <button type="button" data-lang="ru">RU</button>
+            <button type="button" data-lang="az">AZ</button>
+          </div>
+        </nav>
+
+        <div class="workspace">
+          <div class="canvas" id="canvas" style="cursor: auto">
+            <div class="sheet">
+              <section class="svc-hero">
+                <p class="k" style="color: var(--navy); font-size: 11px">Murad Baghirli · Madrid · remote</p>
+                <h1 data-t="title">Design services</h1>
+                <p data-t="lead"></p>
+                <p class="langs" data-t="langs"></p>
+                <div class="ctas">
+                  <a class="btn primary" id="wa" href="#" target="_blank" rel="noreferrer" data-t="cta_wa">WhatsApp</a>
+                  <a class="btn" id="mail" href="#" data-t="cta_mail">Email</a>
+                  <a class="btn" href="index.html#work" data-t="cta_work">See my work</a>
+                </div>
+              </section>
+
+              <div class="section-head"><h2 data-t="h_what">What I can do for you</h2></div>
+              <div class="pk">
+                <article><h3 data-t="p1"></h3><p data-t="p1d"></p></article>
+                <article><h3 data-t="p2"></h3><p data-t="p2d"></p></article>
+                <article><h3 data-t="p3"></h3><p data-t="p3d"></p></article>
+                <article><h3 data-t="p4"></h3><p data-t="p4d"></p></article>
+                <article><h3 data-t="p5"></h3><p data-t="p5d"></p></article>
+                <article><h3 data-t="p6"></h3><p data-t="p6d"></p></article>
+              </div>
+
+              <div class="section-head"><h2 data-t="h_how">How it works</h2></div>
+              <ol class="steps">
+                <li data-t="s1"></li>
+                <li data-t="s2"></li>
+                <li data-t="s3"></li>
+                <li data-t="s4"></li>
+              </ol>
+              <p class="note" data-t="price"></p>
+
+              <div class="section-head"><h2 data-t="h_recent">Recent work</h2></div>
+              <div class="recent">
+                <a href="index.html#heimdall"><img src="img/heimdall-logo-alt.webp" alt="Heimdall"/></a>
+                <a class="light" href="index.html#clairo"><img src="img/clairo/clairo-logo.webp" alt="Clairo"/></a>
+                <a href="index.html#book-heaven"><img src="img/book-heaven.webp" alt="Baku Book Heaven" loading="lazy" style="filter: contrast(2.2)" /></a>
+                <a class="cover" href="index.html#hack4good"><img src="img/h4g-fintech.webp" alt="Hack4Good poster"/></a>
+              </div>
+
+              <section class="contact" id="contact" style="grid-template-columns: 1fr">
+                <div class="contact-intro">
+                  <h2 data-t="h_contact">Let's talk</h2>
+                  <p data-t="contact_p"></p>
+                  <div class="ctas">
+                    <a class="btn primary" id="wa2" href="#" target="_blank" rel="noreferrer" data-t="cta_wa">WhatsApp</a>
+                    <a class="btn" id="mail2" href="#" data-t="cta_mail">Email</a>
+                  </div>
+                  <p style="margin-top: 8px">+34 647 03 61 03 · muradbagirli01.1@gmail.com</p>
+                </div>
+              </section>
+
+              <footer class="foot">
+                <nav class="foot-nav" aria-label="Footer">
+                  <a href="index.html" data-t="nav_home">Portfolio</a>
+                  <a href="index.html#work" data-t="nav_work">Projects</a>
+                </nav>
+                <p class="links">
+                  <a href="https://www.linkedin.com/in/murad-baghirli-35454a1b4" target="_blank" rel="noreferrer">LinkedIn</a>
+                  <a href="https://github.com/groz387" target="_blank" rel="noreferrer">GitHub</a>
+                </p>
+              </footer>
+            </div>
+          </div>
+        </div>
+
+        <footer class="status">
+          <span class="hint" id="status-text">Ln 1, Col 1</span>
+          <span class="coords" id="lang-status">EN</span>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      const PHONE = "34647036103";
+      const EMAIL = "muradbagirli01.1@gmail.com";
+      const T = {
+        en: {
+          nav_home: "← Portfolio", nav_work: "Projects", nav_contact: "Contact",
+          title: "Design services",
+          lead: "Brand & identity designer in Madrid. I help small businesses look as good as what they sell — cafés, restaurants, barbers, shops and startups.",
+          langs: "I work in English, Spanish, Russian, Azerbaijani and Turkish.",
+          cta_wa: "Message me on WhatsApp", cta_mail: "Send an email", cta_work: "See my work",
+          h_what: "What I can do for you",
+          p1: "Logo & identity", p1d: "Logo, colour palette, fonts and a short guide on how to use them.",
+          p2: "Social media kit", p2d: "Profile picture, highlight covers, and ready-to-use post and story templates.",
+          p3: "Menus, flyers & posters", p3d: "Print-ready menus, flyers, posters and signage.",
+          p4: "Presentations", p4d: "Pitch decks, catalogues and company profiles.",
+          p5: "Brand refresh", p5d: "I modernise your logo and visuals without losing what your customers already recognise.",
+          p6: "Landing page", p6d: "A simple, fast one-page website — designed and built.",
+          h_how: "How it works",
+          s1: "Write to me and tell me what you need.",
+          s2: "I send you a quote, usually within 24 hours.",
+          s3: "First concepts in a few days, with revisions.",
+          s4: "You get final files for print and social media.",
+          price: "Every project is different, so I quote per job. Small budgets are welcome.",
+          h_recent: "Recent work", h_contact: "Let's talk",
+          contact_p: "The fastest way to reach me is WhatsApp. Send a photo of your current logo or menu and I'll tell you what I'd change.",
+          wa: "Hi Murad, I found your website. I need help with design for my business.",
+          mail_subject: "Design project"
+        },
+        es: {
+          nav_home: "← Portfolio", nav_work: "Proyectos", nav_contact: "Contacto",
+          title: "Servicios de diseño",
+          lead: "Diseñador de marca e identidad en Madrid. Ayudo a pequeños negocios a verse tan bien como lo que venden: cafeterías, restaurantes, barberías, tiendas y startups.",
+          langs: "Trabajo en español, inglés, ruso, azerbaiyano y turco.",
+          cta_wa: "Escríbeme por WhatsApp", cta_mail: "Enviar un email", cta_work: "Ver mi trabajo",
+          h_what: "Qué puedo hacer por ti",
+          p1: "Logo e identidad", p1d: "Logotipo, paleta de colores, tipografías y una mini guía de uso.",
+          p2: "Kit para redes sociales", p2d: "Foto de perfil, portadas de destacados y plantillas de posts y stories listas para usar.",
+          p3: "Cartas, flyers y carteles", p3d: "Cartas de restaurante, flyers, carteles y rótulos listos para imprimir.",
+          p4: "Presentaciones", p4d: "Presentaciones para inversores, catálogos y perfiles de empresa.",
+          p5: "Rediseño de marca", p5d: "Modernizo tu logo y tu imagen sin perder lo que tus clientes ya reconocen.",
+          p6: "Landing page", p6d: "Una web sencilla y rápida de una página: diseño y desarrollo.",
+          h_how: "Cómo funciona",
+          s1: "Escríbeme y cuéntame qué necesitas.",
+          s2: "Te envío un presupuesto, normalmente en 24 h.",
+          s3: "Primeras propuestas en pocos días, con revisiones.",
+          s4: "Recibes los archivos finales para imprimir y para redes.",
+          price: "Cada proyecto es distinto, así que hago presupuestos a medida. Presupuestos pequeños, bienvenidos.",
+          h_recent: "Trabajos recientes", h_contact: "Hablemos",
+          contact_p: "Lo más rápido es WhatsApp. Mándame una foto de tu logo o tu carta actual y te digo qué cambiaría.",
+          wa: "Hola Murad, he visto tu web. Necesito ayuda con el diseño de mi negocio.",
+          mail_subject: "Proyecto de diseño"
+        },
+        ru: {
+          nav_home: "← Портфолио", nav_work: "Проекты", nav_contact: "Контакты",
+          title: "Услуги дизайна",
+          lead: "Дизайнер брендинга и айдентики из Мадрида. Помогаю малому бизнесу выглядеть так же хорошо, как то, что он продаёт: кафе, рестораны, барбершопы, магазины и стартапы.",
+          langs: "Работаю на русском, английском, азербайджанском, испанском и турецком.",
+          cta_wa: "Написать в WhatsApp", cta_mail: "Написать на почту", cta_work: "Посмотреть работы",
+          h_what: "Что я могу сделать",
+          p1: "Логотип и фирменный стиль", p1d: "Логотип, цветовая палитра, шрифты и короткий гайд по использованию.",
+          p2: "Оформление соцсетей", p2d: "Аватар, обложки для актуального, шаблоны постов и сторис.",
+          p3: "Меню, флаеры и постеры", p3d: "Меню, флаеры, постеры и вывески, готовые к печати.",
+          p4: "Презентации", p4d: "Презентации для инвесторов, каталоги и профили компании.",
+          p5: "Редизайн бренда", p5d: "Обновлю логотип и визуал, сохранив то, что клиенты уже узнают.",
+          p6: "Лендинг", p6d: "Простой и быстрый одностраничный сайт: дизайн и вёрстка.",
+          h_how: "Как это работает",
+          s1: "Напишите мне и расскажите, что нужно.",
+          s2: "Пришлю оценку стоимости — обычно в течение 24 часов.",
+          s3: "Первые варианты через несколько дней, с правками.",
+          s4: "Вы получаете готовые файлы для печати и соцсетей.",
+          price: "Каждый проект разный, поэтому стоимость считаю индивидуально. Небольшие бюджеты — тоже ок.",
+          h_recent: "Последние работы", h_contact: "Давайте обсудим",
+          contact_p: "Быстрее всего — в WhatsApp. Пришлите фото вашего логотипа или меню, и я скажу, что бы я изменил.",
+          wa: "Здравствуйте, Мурад! Пишу с вашего сайта. Нужна помощь с дизайном для бизнеса.",
+          mail_subject: "Дизайн-проект"
+        },
+        az: {
+          nav_home: "← Portfolio", nav_work: "Layihələr", nav_contact: "Əlaqə",
+          title: "Dizayn xidmətləri",
+          lead: "Madriddə brend və korporativ üslub dizayneriyəm. Kiçik bizneslərə satdıqları məhsul qədər gözəl görünməyə kömək edirəm: kafelər, restoranlar, bərbərxanalar, mağazalar və startaplar.",
+          langs: "Azərbaycan, rus, ingilis, ispan və türk dillərində işləyirəm.",
+          cta_wa: "WhatsApp-da yazın", cta_mail: "E-poçt göndərin", cta_work: "İşlərimə baxın",
+          h_what: "Sizin üçün nə edə bilərəm",
+          p1: "Loqo və korporativ üslub", p1d: "Loqo, rəng palitrası, şriftlər və qısa istifadə qaydaları.",
+          p2: "Sosial şəbəkə dizaynı", p2d: "Profil şəkli, highlight örtükləri, post və story şablonları.",
+          p3: "Menyu, flayer və posterlər", p3d: "Çapa hazır menyular, flayerlər, posterlər və lövhələr.",
+          p4: "Təqdimatlar", p4d: "İnvestor təqdimatları, kataloqlar və şirkət profilləri.",
+          p5: "Brendin yenilənməsi", p5d: "Müştərilərinizin tanıdığı cizgiləri saxlayaraq loqo və vizual üslubu yeniləyirəm.",
+          p6: "Landing səhifə", p6d: "Sadə və sürətli bir səhifəlik sayt: dizayn və hazırlanma.",
+          h_how: "Necə işləyir",
+          s1: "Mənə yazın və nə lazım olduğunu deyin.",
+          s2: "Adətən 24 saat ərzində qiymət təklifi göndərirəm.",
+          s3: "Bir neçə gün ərzində ilk variantlar, düzəlişlərlə.",
+          s4: "Çap və sosial şəbəkələr üçün hazır faylları alırsınız.",
+          price: "Hər layihə fərqlidir, ona görə qiyməti fərdi hesablayıram. Kiçik büdcələrə də açığam.",
+          h_recent: "Son işlər", h_contact: "Gəlin danışaq",
+          contact_p: "Ən sürətli yol WhatsApp-dır. Hazırkı loqonuzun və ya menyunuzun şəklini göndərin, nəyi dəyişərdim deyim.",
+          wa: "Salam, Murad! Saytınızdan yazıram. Biznesim üçün dizayn lazımdır.",
+          mail_subject: "Dizayn layihəsi"
+        }
+      };
+
+      const setLang = (lang) => {
+        const t = T[lang] || T.en;
+        document.documentElement.lang = lang;
+        document.querySelectorAll("[data-t]").forEach((el) => {
+          const v = t[el.dataset.t];
+          if (v !== undefined) el.textContent = v;
+        });
+        const wa = "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(t.wa);
+        const mail = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(t.mail_subject);
+        ["wa", "wa2"].forEach((id) => (document.getElementById(id).href = wa));
+        ["mail", "mail2"].forEach((id) => (document.getElementById(id).href = mail));
+        document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+        document.getElementById("lang-status").textContent = lang.toUpperCase();
+        try {
+          const u = new URL(location.href);
+          u.searchParams.set("lang", lang);
+          history.replaceState(null, "", u);
+        } catch (e) {}
+      };
+
+      document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+      const fromUrl = new URLSearchParams(location.search).get("lang");
+      const fromBrowser = (navigator.language || "en").slice(0, 2).toLowerCase();
+      setLang(T[fromUrl] ? fromUrl : T[fromBrowser] ? fromBrowser : "en");
+
+      document.querySelectorAll('a[href="#contact"]').forEach((a) =>
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+        })
+      );
+    </script>
+  </body>
+</html>
